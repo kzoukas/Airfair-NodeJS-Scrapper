@@ -1,0 +1,103 @@
+[{
+    "iata": "UTK",
+    "lon": "169.86667",
+    "iso": "MH",
+    "status": 1,
+    "name": "Utirik Airport",
+    "continent": "OC",
+    "type": "airport",
+    "lat": "11.233333",
+    "size": "small"
+  },
+  {
+    "iata": "ATH",
+    "lon": "23.946486",
+    "iso": "GR",
+    "status": 1,
+    "name": "Eleftherios Venizelos International Airport",
+    "continent": "EU",
+    "type": "airport",
+    "lat": "37.93635",
+    "size": "large"
+  },
+  {
+    "iata": "LHR",
+    "lon": "-0.453566",
+    "iso": "GB",
+    "status": 1,
+    "name": "London Heathrow Airport",
+    "continent": "EU",
+    "type": "airport",
+    "lat": "51.469604",
+    "size": "large"
+  },
+  {
+    "iata": "FIV",
+    "iso": "US",
+    "status": 1,
+    "name": "Five Finger CG Heliport",
+    "continent": "NA",
+    "type": "heliport",
+    "size": null
+  },
+  {
+    "iata": "FAK",
+    "iso": "US",
+    "status": 1,
+    "name": "False Island Seaplane Base",
+    "continent": "NA",
+    "type": "seaplanes",
+    "size": null
+  },
+  {
+    "iata": "BWS",
+    "iso": "US",
+    "status": 0,
+    "name": "Blaine Municipal Airport",
+    "continent": "NA",
+    "type": "closed",
+    "size": null
+  },
+  {
+    "iata": "WKK",
+    "lon": "-158.61111",
+    "iso": "US",
+    "status": 1,
+    "name": "Aleknagik \/ New Airport",
+    "continent": "NA",
+    "type": "airport",
+    "lat": "59.27778",
+    "size": "medium"
+  },
+  {
+    "iata": "TSS",
+    "iso": "US",
+    "status": 1,
+    "name": "East 34th Street Heliport",
+    "continent": "NA",
+    "type": "heliport",
+    "size": null
+  },
+  {
+    "iata": "FOB",
+    "lon": "-123.79444",
+    "iso": "US",
+    "status": 1,
+    "name": "Fort Bragg Airport",
+    "continent": "NA",
+    "type": "airport",
+    "lat": "39.474445",
+    "size": "small"
+  },
+  {
+    "iata": "ABP",
+    "lon": "141.1",
+    "iso": "PG",
+    "status": 1,
+    "name": "Atkamba Airport",
+    "continent": "OC",
+    "type": "airport",
+    "lat": "-6.066667",
+    "size": "small"
+  }
+]

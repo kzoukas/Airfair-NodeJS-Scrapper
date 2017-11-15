@@ -1,0 +1,38 @@
+{
+  "name": "mythesis",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "airports.json"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keyword": [
+    "airport",
+    "heliport",
+    "iata",
+    "poi",
+    "location",
+    "coordinates",
+    "json",
+    "list",
+    "array"
+  ],
+  "scripts": {
+    "start": "node ./bin/www"
+
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "ejs": "^2.5.7",
+    "express": "~4.15.2",
+    "jade": "~1.11.0",
+    "mongoose": "^4.11.13",
+    "morgan": "~1.8.1",
+    "puppeteer": "^0.11.0",
+    "serve-favicon": "~2.4.2"
+  }
+}

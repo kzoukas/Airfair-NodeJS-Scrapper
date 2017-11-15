@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="shortcut icon" href="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" />
+
+  <script type="text/javascript" src="../javascripts/angular.js"></script>
+  <script src="../javascripts/app.js" type="text/javascript"></script>
+  <script src="../javascripts/core.js" type="text/javascript"></script>
+  <!-- Include Required Prerequisites -->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+
+  <!-- Include Date Range Picker -->
+  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+
+  <style>
+    #result {
+      position: absolute;
+      width: 100%;
+      max-width: 570px;
+      cursor: pointer;
+      overflow-y: auto;
+      max-height: 400px;
+      box-sizing: border-box;
+      z-index: 1001;
+    }
+
+    .link-class:hover {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <div id="container" >
+    <span id="header">CodeforGeek</span><span id="demo">Demo's</span><br />
+    <input type="search" size="40" placeholder="Search for tutorials,demos and downloads..."  id="search" name="search">
+    <ul  class="list-group" id="result">
+      
+    </ul>
+
+    <input type="search2" size="40" placeholder="Search for tutorials,demos and downloads..."  id="search2" name="search2">
+    <ul  class="list-group" id="result2">
+      
+    </ul>
+    
+  </div> -->
+  <!-- <div class="container" style="width:900px;">
+    <h2 align="center">Psakse malaka</h2>
+
+    <br /><br />
+    <div align="center">
+      <input type="text" name="search" id="search" placeholder="Search Employee Details" class="form-control" />
+    </div>
+    <ul class="list-group" id="result"></ul>
+    <br />
+  </div> -->
+  <div class="container">
+    <form action="/allFlightss" method="post">
+      <br><br>
+      <div class="row">
+        <div class="input">
+          <div class="col-md-2">
+            <label for="search">fromDestination</label>
+          </div>
+          <div class="col-md-2">
+            <input type="text" name="search" id="search" />
+            <ul class="list-group" id="result"></ul>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <div class="row">
+        <div class="input">
+          <div class="col-md-2">
+            <label for="toDestination">toDestination</label>
+          </div>
+          <div class="col-md-3">
+            <input type="text" id="search2" name="search2">
+            <ul class="list-group" id="result2"></ul>
+          </div>
+        </div>
+      </div>
+
+      <br><br>
+      <div class="row">
+        <div class="input">
+          <div class="col-md-2">
+            <label for="return_date">Date</label>
+          </div>
+          <div class="col-md-2">
+            <input type="text" name="daterange" id="daterange" value="11/01/2017 - 11/15/2017" />
+          </div>
+        </div>
+      </div>
+      <br><br>
+      <div class="row">
+        <button type="submit">INSERT</button>
+      </div>
+
+
+
+
+    </form>
+  </div>
+
+
+
+
+
+
+</body>
+
+</html>
+<script type="text/javascript">
+  $(function() {
+    $('input[name="daterange"]').daterangepicker();
+  });
+</script>
+<script>
+  $(document).ready(function() {
+
+    
+
+    $.ajaxSetup({
+      cache: false
+    });
+
+
+    $('#search').keyup(function() {
+      $('#result').html('');
+      $('#state').val('');
+     
+      
+      
+      $.ajax({
+            type: 'GET',
+            url: "http://localhost:3000/load/"+$('#search').val(),
+            success:function(data){
+
+              var searchField = $('#search').val();
+              var expression = new RegExp(searchField, "i");
+              console.log(JSON.parse(data).length);
+
+
+              $.each(JSON.parse(data), function(key, value) {
+                
+                if  (value.name.search(expression) != -1 || value.iata.search(expression) != -1 ) {
+                $('#result').append('<li class="list-group-item link-class"> ' + value.name + ' | <span class="text-muted">' + value.iata + '</span>' + ' | <span class="text-muted">' + value.location.coordinates[0] + '</span>' +
+                  ' | <span class="text-muted">' + value.location.coordinates[1] + '</span></li>');
+                }
+              });
+            }
+        });
+        
+       
+      
+      
+    });
+    $('#result').on('click', 'li', function() {
+      var click_text = $(this).text().split('|');
+      var lon = $.trim(click_text[2]);
+      var lat = $.trim(click_text[3]);
+      console.log(lon);
+      console.log(lat);
+      $('#search').val($.trim(click_text));
+      $("#result").html('');
+    });
+
+    $('#search2').keyup(function() {
+      $('#result2').html('');
+      $('#state2').val('');
+     
+      
+      
+      $.ajax({
+            type: 'GET',
+            url: "http://localhost:3000/load/"+$('#search2').val(),
+            success:function(data2){
+
+              var searchField2 = $('#search2').val();
+              var expression2 = new RegExp(searchField2, "i");
+              console.log(JSON.parse(data2).length);
+
+
+              $.each(JSON.parse(data2), function(key, value2) {
+                
+                if  (value2.name.search(expression2) != -1 || value2.iata.search(expression2) != -1 ) {
+                $('#result2').append('<li class="list-group-item link-class"> ' + value2.name + ' | <span class="text-muted">' + value2.iata + '</span>' + ' | <span class="text-muted">' + value2.location.coordinates[0] + '</span>' +
+                  ' | <span class="text-muted">' + value2.location.coordinates[1] + '</span></li>');
+                }
+              });
+            }
+        });
+        
+       
+      
+      
+    });
+    $('#result2').on('click', 'li', function() {
+      var click_text2 = $(this).text().split('|');
+      var lon2 = $.trim(click_text2[2]);
+      var lat2 = $.trim(click_text2[3]);
+      console.log(lon2);
+      console.log(lat2);
+      $('#search2').val($.trim(click_text2));
+      $("#result2").html('');
+    });
+
+
+  });
+
+  
+</script>
