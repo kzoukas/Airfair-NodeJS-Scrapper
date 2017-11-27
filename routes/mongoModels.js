@@ -11,6 +11,8 @@ var Flight = mongoose.model('Flight', mongoose.Schema({
   fromArrivalTime: String,
   fromTown: String,
   toTown: String,
+  fromIata: String,
+  toIata: String,
   // toDepartureTime: String,
   // toArrivalTime: String,
   price: String,
