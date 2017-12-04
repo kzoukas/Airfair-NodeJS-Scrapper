@@ -20,15 +20,15 @@ var Flight = mongoose.model('Flight', mongoose.Schema({
   //toCompany: String,
   fromDate: String,
   toDate: String,
-  longitude_from: String,
-  latitude_from: String,
-  longitude_to: String,
-  latitude_to: String,
+  // longitude_from: String,
+  // latitude_from: String,
+  // longitude_to: String,
+  // latitude_to: String,
 
 
 }));
 
-var newSchema= mongoose.Schema({
+var newSchema = mongoose.Schema({
   iata: String,
   lon: String,
   iso: String,
@@ -48,8 +48,18 @@ var newSchema= mongoose.Schema({
 
 });
 
-newSchema.index( { location : "2dsphere" } );
-var LiveSearch = mongoose.model('AirportsAlls',newSchema);
+newSchema.index({
+  location: "2dsphere"
+});
+// newSchema.index({
+//   name: 1
+// }, {
+//   collation: {
+//     locale: 'en',
+//     strength: 2
+//   }
+// })
+var LiveSearch = mongoose.model('AirportsAlls', newSchema);
 
 
 module.exports = {

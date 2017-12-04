@@ -1,215 +1,874 @@
 <!DOCTYPE html>
-<html>
+<!-- saved from url=(0042)http://swlabs.co/exploore/homepage-03.html -->
+<html lang="en" class="">
 
 <head>
-  <link rel="shortcut icon" href="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"
-  />
 
-  <script type="text/javascript" src="../javascripts/angular.js"></script>
-  <script src="../javascripts/app.js" type="text/javascript"></script>
-  <script src="../javascripts/core.js" type="text/javascript"></script>
-  <!-- Include Required Prerequisites -->
-  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
-  <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Sky travel</title>
 
-  <!-- Include Date Range Picker -->
-  <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FONT CSS-->
+    <link type="text/css" rel="stylesheet" href="./fonts/css">
+    <link type="text/css" rel="stylesheet" href="./fonts/css(1)">
+    <link type="text/css" rel="stylesheet" href="./fonts/font-awesome.css">
+    <link type="text/css" rel="stylesheet" href="./fonts/flaticon.css">
+    <!-- LIBRARY CSS-->
+    <link type="text/css" rel="stylesheet" href="./stylesheets/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/animate.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/slick.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/slick-theme.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/jquery.selectbox.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/please-wait.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/jquery.fancybox.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/jquery.fancybox-buttons.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/jquery.fancybox-thumbs.css">
+    <!-- STYLE CSS-->
+    <link type="text/css" rel="stylesheet" href="./stylesheets/layout.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/components.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/responsive.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/color.css">
+    <link type="text/css" rel="stylesheet" href="./stylesheets/color(1).css" id="color-skins">
+    <script src="./javascripts/jquery-2.2.3.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="./stylesheets/bootstrap-datepicker.min.css">
 
-
-  <style>
-    #result {
-      position: absolute;
-      width: 100%;
-      max-width: 570px;
-      cursor: pointer;
-      overflow-y: auto;
-      max-height: 400px;
-      box-sizing: border-box;
-      z-index: 1001;
-    }
-
-    .link-class:hover {
-      background-color: #f1f1f1;
-    }
-  </style>
 </head>
 
-<body>
+<body class="linux mozilla5 5 pg-loaded">
+    <div class="body-wrapper loaded">
+        <!-- MENU MOBILE-->
+        <div class="wrapper-mobile-nav">
+            <div class="header-topbar">
+                <div class="topbar-search search-mobile">
+                    <form class="search-form">
+                        <div class="input-icon">
+                            <i class="btn-search fa fa-search"></i>
+                            <input type="text" placeholder="Search here..." class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="header-main">
+                <div class="menu-mobile">
+                    <ul class="nav-links nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="" class="main-menu">
+                                <span class="text">Home</span>
+                            </a>
+                            <span class="icons-dropdown">
+                                <i class="fa fa-angle-down"></i>
+                            </span>
+                            <ul class="dropdown-menu dropdown-menu-1">
+                                <li>
+                                    <a href="" class="link-page">Homepage</a>
+                                </li>
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="main-menu">
+                                <span class="text">about</span>
+                            </a>
+                        </li>
 
-  <!-- <div id="container" >
-    <span id="header">CodeforGeek</span><span id="demo">Demo's</span><br />
-    <input type="search" size="40" placeholder="Search for tutorials,demos and downloads..."  id="search" name="search">
-    <ul  class="list-group" id="result">
-      
-    </ul>
-    <input type="search2" size="40" placeholder="Search for tutorials,demos and downloads..."  id="search2" name="search2">
-    <ul  class="list-group" id="result2">
-      
-    </ul>
-    
-  </div> -->
-  <!-- <div class="container" style="width:900px;">
-    <h2 align="center">Psakse malaka</h2>
-    <br /><br />
-    <div align="center">
-      <input type="text" name="search" id="search" placeholder="Search Employee Details" class="form-control" />
+
+                        <li class="dropdown">
+                            <a href="" class="main-menu">
+                                <span class="text">blog</span>
+                            </a>
+                            <span class="icons-dropdown">
+                                <i class="fa fa-angle-down"></i>
+                            </span>
+                            <ul class="dropdown-menu dropdown-menu-1">
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="main-menu">
+                                <span class="text">page</span>
+                            </a>
+                            <span class="icons-dropdown">
+                                <i class="fa fa-angle-down"></i>
+                            </span>
+                            <ul class="dropdown-menu dropdown-menu-1">
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                                <li>
+                                    <a href="" class="link-page">Infos</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="main-menu">
+                                <span class="text">contact</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <!-- WRAPPER CONTENT-->
+        <div class="wrapper-content">
+            <!-- HEADER-->
+            <header>
+                <div class="bg-transparent header-01">
+
+                    <div class="header-main">
+                        <div class="container">
+                            <div class="header-main-wrapper">
+                                <div class="hamburger-menu">
+                                    <div class="hamburger-menu-wrapper">
+                                        <div class="icons"></div>
+                                    </div>
+                                </div>
+                                <div class="navbar-header">
+                                    <div class="logo">
+                                        <a href="index.html" class="header-logo">
+                                            <img src="./images/logo-white-color-1.png" alt="" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <nav class="navigation">
+                                    <ul class="nav-links nav navbar-nav">
+                                        <li class="dropdown ">
+                                            <a href="javascript:void(0)" class="main-menu">
+                                                <span class="text">Home</span>
+                                                <span class="icons-dropdown">
+                                                    <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-1">
+                                                <li>
+                                                    <a href="" class="link-page">Infos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" class="link-page">Infos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" class="link-page">Infos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" class="link-page">Infos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" class="link-page">Infos</a>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="" class="main-menu">
+                                                <span class="text">about</span>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0)" class="main-menu">
+                                                <span class="text">Infos</span>
+                                                <span class="icons-dropdown">
+                                                    <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-1">
+                                                <li>
+                                                    <a href="" class="link-page">info</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" class="link-page">info</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0)" class="main-menu">
+                                                <span class="text">Policy</span>
+                                                <span class="icons-dropdown">
+                                                    <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-1">
+                                                <li>
+                                                    <a href="" class="link-page">info</a>
+                                                </li>
+                                                <li>
+                                                    <a href="" class="link-page">info2</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+
+                                        <li>
+                                            <a href="" class="main-menu">
+                                                <span class="text">contact</span>
+                                            </a>
+                                        </li>
+                                        <li class="button-search">
+                                            <p class="main-menu">
+                                                <i class="fa fa-search"></i>
+                                            </p>
+                                        </li>
+                                    </ul>
+                                    <div class="nav-search hide">
+                                        <form>
+                                            <input type="text" placeholder="Search" class="searchbox" />
+                                            <button type="submit" class="searchbutton fa fa-search"></button>
+                                        </form>
+                                    </div>
+                                </nav>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- WRAPPER-->
+            <div id="wrapper-content row">
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+
+                    <section class="page-banner homepage-default">
+
+                        <div class="container">
+                            <div class="homepage-banner-warpper">
+                                <div class="homepage-banner-content">
+                                    <h1 class="banner">ONE WAY TO FLIGHT</h1>
+                                    <h4 class="sub-banner">Fast&nbsp;/ Cheap&nbsp;/ Easy</h4>
+                                    <div class="tab-search tab-search-long tab-search-transparent">
+                                        <ul role="tablist" class="nav nav-tabs">
+                                            <li role="presentation" class="tab-btn-wrapper active">
+                                                <a href="" aria-controls="flight" role="tab" data-toggle="tab" class="tab-btn">
+                                                    <i class="flaticon-transport-1"></i>
+                                                    <span>FLIGHT</span>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" id="flight" class="tab-pane fade in active">
+                                                <div class="find-widget find-flight-widget widget">
+                                                    <h4 class="title-widgets">FIND YOUR FLIGHT</h4>
+                                                    <form class="content-widget" action="/allFlightss" method="post" enctype="application/x-www-form-urlencoded">
+                                                        <div class="ffw-radio-selection">
+                                                            <span class="ffw-radio-btn-wrapper">
+                                                                <input type="radio" name="flightType" value="oneWway" id="flight-type-1" checked="checked" class="ffw-radio-btn">
+                                                                <label for="flight-type-1" class="ffw-radio-label">One Way</label>
+                                                            </span>
+                                                            <span class="ffw-radio-btn-wrapper">
+                                                                <input type="radio" name="flightType" value="roundTrip" id="flight-type-2" class="ffw-radio-btn">
+                                                                <label for="flight-type-2" class="ffw-radio-label">Round Trip</label>
+                                                            </span>
+
+                                                            <div class="stretch">&nbsp;</div>
+                                                        </div>
+                                                        <div class="text-input small-margin-top">
+                                                            <div class="place text-box-wrapper">
+                                                                <label class="tb-label ">From</label>
+                                                                <div class="input-group">
+                                                                    <!-- <input type="text" placeholder="Write the place" class="tb-input"> -->
+                                                                    <input type="text" name="search" id="search" placeholder="Write the place" class="tb-input" />
+                                                                    <ul class="list-group" id="result"></ul>
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div>
+                                                            <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                            </div> -->
+                                                            <div class="place text-box-wrapper">
+                                                                <label class="tb-label ">To</label>
+                                                                <div class="input-group">
+                                                                    <!-- <input type="text" placeholder="Write the place" class="tb-input"> -->
+                                                                    <input type="text" name="search2" id="search2" placeholder="Write the place" class="tb-input" />
+                                                                    <ul class="list-group" id="result2"></ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="count adult-count text-box-wrapper">
+
+                                                                <i class="fa fa-male" aria-hidden="true"></i>
+                                                                <label class="tb-label">Adult</label>
+                                                                <div class="select-wrapper">
+                                                                    <!--i.fa.fa-chevron-down-->
+                                                                    <select class="form-control custom-select selectbox" name="select_adult_num" id="select_adult_num">
+                                                                        <option selected="selected" value=1>1</option>
+                                                                        <option value=2>2</option>
+                                                                        <option value=3>3</option>
+                                                                        <option value=4>4</option>
+                                                                        <option value=5>5</option>
+                                                                        <option value=6>6</option>
+                                                                        <option value=7>7</option>
+                                                                        <option value=8>8</option>
+                                                                        <option value=9>9</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="count child-count text-box-wrapper">
+
+                                                                <i class="fa fa-child" aria-hidden="true"></i>
+                                                                <label class="tb-label">Child</label>
+                                                                <div class="select-wrapper">
+                                                                    <!--i.fa.fa-chevron-down-->
+                                                                    <select class="form-control custom-select selectbox" name="select_child_num" id="select_child_num">
+                                                                        <option selected="selected" value=0>0</option>
+                                                                        <option value=1>1</option>
+                                                                        <option value=2>2</option>
+                                                                        <option value=3>3</option>
+                                                                        <option value=4>4</option>
+                                                                        <option value=5>5</option>
+                                                                        <option value=6>6</option>
+                                                                        <option value=7>7</option>
+                                                                        <option value=8>8</option>
+                                                                        <option value=9>9</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-daterange">
+                                                                <div class="text-box-wrapper half">
+                                                                    <label class="tb-label">Check in</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_in" id="check_in">
+                                                                        <i class="tb-icon fa fa-calendar input-group-addon"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-box-wrapper half epsilon" id="epsi">
+                                                                    <label class="tb-label">Check out</label>
+                                                                    <div class="input-group">
+                                                                        <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_out" id="check_out">
+                                                                        <i class="tb-icon fa fa-calendar input-group-addon"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <button type="submit" data-hover="SEARCH NOW" class="submit-btn btn btn-slide">
+                                                                <span class="text">SEARCH NOW</span>
+                                                                <span class="icons fa fa-long-arrow-right"></span>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section class=" padding-top padding-bottom">
+                        <div class="container">
+                            <div class="tours-wrapper">
+                                <div class="group-title">
+                                    <div class="sub-title">
+                                        <p class="text">WE SUGGEST</p>
+                                        <i class="icons flaticon-people"></i>
+                                    </div>
+                                    <h2 class="main-title">awesome tours</h2>
+                                </div>
+                                <div class="tours-content margin-top70">
+                                    <div class="tours-list slick-initialized slick-slider">
+                                        <div aria-live="polite" class="slick-list draggable">
+                                            <div class="slick-track" role="listbox" style="opacity: 1; width: 972px; left: 0px;">
+                                                <div class="tours-layout slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" tabindex="-1" role="option"
+                                                    aria-describedby="slick-slide10" style="width: 294px;">
+                                                    <div class="image-wrapper">
+                                                        <a href="" class="link" tabindex="0">
+                                                            <img src="./images/chania.jpg" alt="" class="img-responsive">
+                                                        </a>
+                                                        <div class="title-wrapper">
+                                                            <a href="" class="title" tabindex="0">Chania City</a>
+                                                            <!-- <i class="icons flaticon-circle"></i> -->
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="content-wrapper">
+
+                                                        <div class="content">
+                                                            <!-- <div class="title">
+                                                                <div class="price">
+                                                                    <sup>$</sup>
+                                                                    <span class="number">350</span>
+                                                                </div>
+                                                                <p class="for-price">3 days 2 nights</p>
+                                                            </div> -->
+                                                            <p class="text">Chania city infos</p>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tours-layout slick-slide slick-active" data-slick-index="2" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide12"
+                                                    style="width: 294px;">
+                                                    <div class="image-wrapper">
+                                                        <a href="" class="link" tabindex="0">
+                                                            <img src="./images/thessaloniki.jpg" alt="" class="img-responsive">
+                                                        </a>
+                                                        <div class="title-wrapper">
+                                                            <a href="" class="title" tabindex="0">Thessalonikh</a>
+                                                            <!-- <i class="icons flaticon-circle"></i> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="content-wrapper">
+
+                                                        <div class="content">
+                                                            <!-- <div class="title">
+                                                                <div class="price">
+                                                                    <sup>$</sup>
+                                                                    <span class="number">375</span>
+                                                                </div>
+                                                                <p class="for-price">3 days 2 nights</p>
+                                                            </div> -->
+                                                            <p class="text">Thessalonikh infos.</p>
+                                                            <!-- <div class="group-btn-tours">
+                                                                <a href="http://swlabs.co/exploore/tour-view.html" class="left-btn" tabindex="0">book now</a>
+                                                                <a href="http://swlabs.co/exploore/blog.html" class="right-btn" tabindex="0">add to list</a>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tours-layout slick-slide slick-active" data-slick-index="2" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide12"
+                                                    style="width: 294px;">
+                                                    <div class="image-wrapper">
+                                                        <a href="" class="link" tabindex="0">
+                                                            <img src="./images/stavloi.jpg" alt="" class="img-responsive">
+                                                        </a>
+                                                        <div class="title-wrapper">
+                                                            <a href="" class="title" tabindex="0">Stavloi</a>
+                                                            <!-- <i class="icons flaticon-circle"></i> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="content-wrapper">
+
+                                                        <div class="content">
+                                                            <!-- <div class="title">
+                                                                <div class="price">
+                                                                    <sup>$</sup>
+                                                                    <span class="number">375</span>
+                                                                </div>
+                                                                <p class="for-price">3 days 2 nights</p>
+                                                            </div> -->
+                                                            <p class="text">Stavloi infos.</p>
+                                                            <!-- <div class="group-btn-tours">
+                                                                <a href="http://swlabs.co/exploore/tour-view.html" class="left-btn" tabindex="0">book now</a>
+                                                                <a href="http://swlabs.co/exploore/blog.html" class="right-btn" tabindex="0">add to list</a>
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="travelers">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="traveler-wrapper padding-top padding-bottom">
+                                        <!-- <div class="group-title white">
+                                            <div class="sub-title">
+                                                <p class="text">RELAX AND ENJOY</p>
+                                                <i class="icons flaticon-people"></i>
+                                            </div>
+                                            <h2 class="main-title">happy traveler</h2>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <!-- <div class="traveler-list slick-initialized slick-slider">
+                                        <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">Previous</button>
+                                        <div aria-live="polite" class="slick-list draggable">
+                                            <div class="slick-track" role="listbox" style="opacity: 1; width: 2472px; left: -618px;">
+                                                <div class="traveler slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1" style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-3.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-3.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">taylor rose</p>
+                                                        <p class="address">pari, France</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1" style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-4.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-4.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">john smith</p>
+                                                        <p class="address">new york, USA</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" tabindex="-1" role="option"
+                                                    aria-describedby="slick-slide20" style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-1.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-1.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">Sandara park</p>
+                                                        <p class="address">roma, italy</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide slick-active" data-slick-index="1" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide21"
+                                                    style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-2.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-2.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">Kown Jiyong</p>
+                                                        <p class="address">london, England</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide" data-slick-index="2" aria-hidden="true" tabindex="-1" role="option" aria-describedby="slick-slide22"
+                                                    style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-3.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-3.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">taylor rose</p>
+                                                        <p class="address">pari, France</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide" data-slick-index="3" aria-hidden="true" tabindex="-1" role="option" aria-describedby="slick-slide23"
+                                                    style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-4.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-4.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">john smith</p>
+                                                        <p class="address">new york, USA</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide slick-cloned" data-slick-index="4" aria-hidden="true" tabindex="-1" style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-1.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-1.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">Sandara park</p>
+                                                        <p class="address">roma, italy</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                                <div class="traveler slick-slide slick-cloned" data-slick-index="5" aria-hidden="true" tabindex="-1" style="width: 279px;">
+                                                    <div class="cover-image">
+                                                        <img src="./images/cover-image-2.jpg" alt="">
+                                                    </div>
+                                                    <div class="wrapper-content">
+                                                        <div class="avatar">
+                                                            <img src="./images/avatar-2.jpg" alt="" class="img-responsive">
+                                                        </div>
+                                                        <p class="name">Kown Jiyong</p>
+                                                        <p class="address">london, England</p>
+                                                        <p class="description">" There are many variations of passages of Lorem Ipsum available,
+                                                            but the majority have suffered alteration in some form."</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">Next</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <section class="about-us layout-2 padding-top padding-bottom about-us-2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="wrapper-contact-style">
+                                    <div class="col-md-7">
+                                        <div class="group-title">
+                                            <div class="sub-title">
+                                                <p class="text">be born agian</p>
+                                                <i class="icons flaticon-people"></i>
+                                            </div>
+                                            <h2 class="main-title">we are exploore</h2>
+                                        </div>
+                                        <div class="about-us-wrapper">
+                                            <p class="text">Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                                magna aliqua. Ut eim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                                nisi ut aliquip ex commodo consequat uisas aute irure dolor ullamco laboris
+                                                nisi in reprehenderit.</p>
+                                            <div class="group-list">
+                                                <ul class="list-unstyled about-us-list">
+                                                    <li>
+                                                        <p class="text">First Class Flights</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text">5 Star Accommodations</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text">Inclusive Packages</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text">Latest Model Vehicles</p>
+                                                    </li>
+                                                </ul>
+                                                <ul class="list-unstyled about-us-list">
+                                                    <li>
+                                                        <p class="text">Handpicked Hotels</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text">Accesibility managment</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text">10 Languages available</p>
+                                                    </li>
+                                                    <li>
+                                                        <p class="text">+120 Premium city tours</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="group-button">
+                                                <a href="http://swlabs.co/exploore/tour-result.html" class="btn btn-maincolor">purchase now</a>
+                                                <a href="http://swlabs.co/exploore/about-us.html" class="btn">read more</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-wow-delay="0.5s" class="about-us-image wow fadeInRight" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
+                                        <img src="./images/about-us-2.jpg" alt="" class="img-responsive">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> -->
+
+                    <!-- <section class="banner-sale-3 new-style">
+                        <div class="clouds_one"></div>
+                        <div class="clouds_two"></div>
+                        <div class="container">
+                            <div class="text-salebox">
+                                <div class="text-left">
+                                    <div class="sale-box">
+                                        <div class="sale-box-top">
+                                            <h2 class="number">50</h2>
+                                            <span class="sup-1">%</span>
+                                            <span class="sup-2">off</span>
+                                        </div>
+                                        <h2 class="text-sale">sale</h2>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <h5 class="title">Epic Journeys From The Explooer</h5>
+                                    <p class="text">cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                                        sunt in culpa. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                                        sunt in culpa velit esse cillum dolore eu fugiat. Ut enim ad minim veniam.</p>
+                                    <div class="group-button">
+                                        <a href="http://swlabs.co/exploore/tour-view.html" class="btn btn-maincolor">book now</a>
+                                        <a href="http://swlabs.co/exploore/tour-view.html" class="btn btn-transparent">read more</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> -->
+
+                </div>
+                <!-- BUTTON BACK TO TOP-->
+                <div id="back-top">
+                    <a href="" class="link">
+                        <i class="fa fa-angle-double-up"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- FOOTER-->
+            <footer>
+                <div class="bg-blue-gradient">
+                    <div class="footer-main bg-transparent padding-top padding-bottom">
+                        <div class="container">
+                            <div class="footer-main-wrapper">
+                                <a href="" class="logo-footer logo-black">
+                                    <img src="" alt="" class="img-responsive">
+                                </a>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <div class="col-md-3 col-xs-5">
+                                            <div class="contact-us-widget widget">
+                                                <div class="title-widget">contact us</div>
+                                                <div class="content-widget">
+                                                    <div class="info-list">
+                                                        <ul class="list-unstyled">
+                                                            <li>
+                                                                <i class="icons fa fa-map-marker"></i>
+                                                                <a href="" class="link">Papaflessa 42 Galatsi, Athens</a>
+                                                            </li>
+                                                            <li>
+                                                                <i class="icons fa fa-phone"></i>
+                                                                <a href="" class="link">2102345621</a>
+                                                            </li>
+                                                            <li>
+                                                                <i class="icons fa fa-envelope-o"></i>
+                                                                <a href="" class="link">zoukas1sb4ck@hotmail.com</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="form-email">
+                                                        <p class="text">Sign up for our mailing list to get latest updates and offers.</p>
+                                                        <form action="">
+                                                            <div class="input-group">
+                                                                <input type="text" placeholder="Email address" class="form-control form-email-widget">
+                                                                <span class="input-group-btn">
+                                                                    <button type="submit" class="btn-email">✔</button>
+                                                                </span>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-xs-3">
+                                            <div class="booking-widget widget text-center">
+                                                <div class="title-widget">book now</div>
+                                                <div class="content-widget">
+                                                    <ul class="list-unstyled">
+                                                        <li>
+                                                            <a href="" class="link">Flights</a>
+                                                        </li>
+
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-xs-4">
+                                            <div class="explore-widget widget">
+                                                <div class="title-widget">Top destinations</div>
+                                                <div class="content-widget">
+                                                    <ul class="list-unstyled">
+                                                        <li>
+                                                            <a href="" class="link">Athens</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="" class="link">Chania City</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="" class="link">Thessalonikh</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="" class="link">Paris City</a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hyperlink bg-transparent">
+                        <div class="container">
+
+                            <div class="social-footer">
+                                <ul class="list-inline list-unstyled">
+                                    <li>
+                                        <a href="" class="link facebook">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="link twitter">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" class="link google">
+                                            <i class="fa fa-google"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="name-company">© Designed by Konstantinos Zoukas.</div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
-    <ul class="list-group" id="result"></ul>
-    <br />
-  </div> -->
-  <div class="container">
-    <form action="/allFlightss" method="post">
-      <br>
-      <br>
-      <div class="row">
-        <div class="input">
-          <div class="col-md-2">
-            <label for="search">fromDestination</label>
-          </div>
-          <div class="col-md-2">
-            <input type="text" name="search" id="search" />
-            <ul class="list-group" id="result"></ul>
-          </div>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <div class="row">
-        <div class="input">
-          <div class="col-md-2">
-            <label for="toDestination">toDestination</label>
-          </div>
-          <div class="col-md-3">
-            <input type="text" id="search2" name="search2">
-            <ul class="list-group" id="result2"></ul>
-          </div>
-        </div>
-      </div>
-
-      <br>
-      <br>
-      <div class="row">
-        <div class="input">
-          <div class="col-md-2">
-            <label for="return_date">Date</label>
-          </div>
-          <div class="col-md-2">
-            <input type="text" name="daterange" id="daterange" value="11/01/2017 - 11/15/2017" />
-          </div>
-        </div>
-      </div>
-      <br>
-      <br>
-      <div class="row">
-        <button type="submit">INSERT</button>
-      </div>
 
 
-
-
-    </form>
-  </div>
-
-
-
+    <!-- LIBRARY JS-->
+    <script src="./javascripts/bootstrap.min.js"></script>
+    <script src="./javascripts/browser.js"></script>
+    <script src="./javascripts/jquery-smoothscroll.js"></script>
+    <script src="./javascripts/wow.min.js"></script>
+    <script src="./javascripts/slick.min.js"></script>
+    <script src="./javascripts/jquery.selectbox-0.2.js"></script>
+    <script src="./javascripts/please-wait.min.js"></script>
+    <script src="./javascripts/jquery.fancybox.js"></script>
+    <script src="./javascripts/jquery.fancybox-buttons.js"></script>
+    <script src="./javascripts/jquery.fancybox-thumbs.js"></script>
+    <script src="./javascripts/ajaxAirports.js"></script>
+    <script src="./javascripts/liveAirportSearch.js"></script>
+    <!--script(src="assets/libs/parallax/jquery.data-parallax.min.js")-->
+    <!-- MAIN JS-->
+    <script src="./javascripts/main.js"></script>
+    <!-- LOADING JS FOR PAGE-->
+    <script src="./javascripts/home-page.js"></script>
+    <script src="./javascripts/bootstrap-datepicker.min.js"></script>
 
 
 
 </body>
 
 </html>
-<script type="text/javascript">
-  $(function () {
-    $('input[name="daterange"]').daterangepicker();
-  });
-</script>
-<script>
-  $(document).ready(function () {
-
-    $.ajaxSetup({
-      cache: false
-    });
-    $('#search').keyup(function () {
-      $('#result').html('');
-      $('#state').val('');
-
-
-
-      $.ajax({
-        type: 'GET',
-        url: "http://localhost:3000/load/" + $('#search').val(),
-        success: function (data) {
-          var searchField = $('#search').val();
-          var expression = new RegExp(searchField, "i");
-          console.log(JSON.parse(data).length);
-          $.each(JSON.parse(data), function (key, value) {
-
-            if (value.name.search(expression) != -1 || value.iata.search(expression) != -1) {
-              $('#result').append('<li class="list-group-item link-class"> ' + value.name + ' | <span class="text-muted">' + value.iata + '</span>' + ' | <span class="text-muted">' + value.location.coordinates[0] + '</span>' +
-                ' | <span class="text-muted">' + value.location.coordinates[1] + '</span></li>');
-            }
-          });
-        }
-      });
-
-
-
-
-    });
-    $('#result').on('click', 'li', function () {
-      var click_text = $(this).text().split('|');
-      var lon = $.trim(click_text[2]);
-      var lat = $.trim(click_text[3]);
-      console.log(lon);
-      console.log(lat);
-      $('#search').val($.trim(click_text));
-      $("#result").html('');
-    });
-    $('#search2').keyup(function () {
-      $('#result2').html('');
-      $('#state2').val('');
-
-
-
-      $.ajax({
-        type: 'GET',
-        url: "http://localhost:3000/load/" + $('#search2').val(),
-        success: function (data2) {
-          var searchField2 = $('#search2').val();
-          var expression2 = new RegExp(searchField2, "i");
-          console.log(JSON.parse(data2).length);
-          $.each(JSON.parse(data2), function (key, value2) {
-
-            if (value2.name.search(expression2) != -1 || value2.iata.search(expression2) != -1) {
-              $('#result2').append('<li class="list-group-item link-class"> ' + value2.name + ' | <span class="text-muted">' + value2.iata + '</span>' + ' | <span class="text-muted">' + value2.location.coordinates[0] + '</span>' +
-                ' | <span class="text-muted">' + value2.location.coordinates[1] + '</span></li>');
-            }
-          });
-        }
-      });
-
-
-
-
-    });
-    $('#result2').on('click', 'li', function () {
-      var click_text2 = $(this).text().split('|');
-      var lon2 = $.trim(click_text2[2]);
-      var lat2 = $.trim(click_text2[3]);
-      console.log(lon2);
-      console.log(lat2);
-      $('#search2').val($.trim(click_text2));
-      $("#result2").html('');
-    });
-  });
-
-</script>
