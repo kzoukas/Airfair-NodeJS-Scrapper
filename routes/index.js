@@ -188,10 +188,7 @@ router.get('/load/:_search', function (req, res) {
   });
 
 });
-router.get('/allFlightss', function (req, res) {
-  res.render('index');
 
-});
 router.post('/allFlightss', function (req, res, next) {
 
   var flightType = req.body.flightType;
@@ -338,7 +335,7 @@ router.post('/allFlightss', function (req, res, next) {
 
   });
 
-  res.redirect("http://localhost:3000");
+  res.redirect("http://localhost:8080/#!/allflights");
 
 });
 module.exports = router;
