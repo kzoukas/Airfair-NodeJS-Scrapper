@@ -1171,7 +1171,7 @@
              -o-animation: cloud_left_to_right 100s linear infinite;
                 animation: cloud_left_to_right 100s linear infinite;
 
-        background-image: url('../../images/background/bg_404_Cloud-1.png');
+        background-image: url('../../images/bg_404_Cloud-1.png');
         background-position: center;
     }
     .page-clouds-2 {
@@ -1183,7 +1183,7 @@
              -o-animation: cloud_right_to_left 100s linear infinite;
                 animation: cloud_right_to_left 100s linear infinite;
 
-        background-image: url('../../images/background/bg_404_Cloud-2.png');
+        background-image: url('../../images/bg_404_Cloud-2.png');
         background-position: top;
     }
     .page-clouds-3 {
@@ -1195,7 +1195,7 @@
              -o-animation: cloud_left_to_right 100s linear infinite;
                 animation: cloud_left_to_right 100s linear infinite;
 
-        background-image: url('../../images/background/bg_404_Cloud-3.png');
+        background-image: url('../../images/bg_404_Cloud-3.png');
         background-position: center;
     }
     .item-blog-detail .blog-text .blog-content {

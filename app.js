@@ -51,7 +51,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('Exploore _ 404');
+  res.render('errorPage');
 });
 
 module.exports = app;

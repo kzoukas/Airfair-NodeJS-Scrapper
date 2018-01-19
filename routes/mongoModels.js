@@ -6,7 +6,7 @@ mongoose.connect('mongodb://localhost/test5', {
 });
 
 var Flight = mongoose.model('Flight', mongoose.Schema({
-  name: String,
+  //name: String,
   fromDepartureTime: String,
   fromArrivalTime: String,
   fromTown: String,
@@ -27,6 +27,20 @@ var Flight = mongoose.model('Flight', mongoose.Schema({
 
 
 }));
+
+var FlightInfos = mongoose.model('FlightInfos', mongoose.Schema({
+  
+
+  fromTown: String,
+  toTown: String,
+  fromIata: String,
+  toIata: String,
+  fromDate: String,
+  toDate: String,
+  roundTrip:String,
+
+}));
+
 
 var newSchema = mongoose.Schema({
   iata: String,
@@ -51,18 +65,13 @@ var newSchema = mongoose.Schema({
 newSchema.index({
   location: "2dsphere"
 });
-// newSchema.index({
-//   name: 1
-// }, {
-//   collation: {
-//     locale: 'en',
-//     strength: 2
-//   }
-// })
+
 var LiveSearch = mongoose.model('AirportsAlls', newSchema);
 
 
 module.exports = {
   Flight,
-  LiveSearch
+  LiveSearch,
+  FlightInfos
+
 }

@@ -4,9 +4,12 @@ var mongoose = require('mongoose');
 var file_importer = require('./test.js')
 const puppeteer = require('puppeteer');
 const Models = require('./mongoModels');
+
 const Flight = Models.Flight;
 const LiveSearch = Models.LiveSearch;
-const AirportsAll = Models.AirportsAll;
+const FlightInfos = Models.FlightInfos;
+
+
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
@@ -20,17 +23,20 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var d = R * c; // Distance in km
   return d;
 }
+
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
+
 function scrollPage() {
   window.scrollBy(0, window.innerHeight);
   window.scrollBy(0, window.innerHeight);
   window.scrollBy(0, window.innerHeight);
 
 }
+
 function countResults() {
-  // return document.querySelector(".result-container")?document.querySelector(".result-container").children:0;
+  /* return document.querySelector(".result-container")?document.querySelector(".result-container").children:0;  */
   if (document.querySelector(".result-container")) {
     return document.querySelectorAll(".result-container").length;
   } else {
@@ -38,27 +44,30 @@ function countResults() {
 
   }
 }
+
 function resultsReady() {
   return !document.querySelector('.loader-line')
 }
+
 function computeResults() {
 
   var results = Array.from(document.querySelectorAll(".result-container"));
   console.log('----------------------------------------------------------')
   console.log(results)
   return results.map((r) => {
-    var times = r.querySelectorAll('.time')
-    var town = r.querySelectorAll('.town')
+    var times = r.querySelectorAll('.h4')
+    var town = r.querySelectorAll('.d-none')
+    var iata = r.querySelectorAll('.d-block')
 
     var infos = r.querySelectorAll('.connection-info span')
 
     return {
       fromDepartureTime: times[0].textContent.trim(),
       fromArrivalTime: times[1].textContent.trim(),
-      fromTown: town[0].textContent.trim(),
-      fromIata: town[1].textContent.trim(),
-      toTown: town[2].textContent.trim(),
-      toIata: town[3].textContent.trim(),
+      fromTown: town[1].textContent.trim(),
+      fromIata: iata[0].textContent.trim(),
+      toTown: town[3].textContent.trim(),
+      toIata: iata[1].textContent.trim(),
       // toDepartureTime: times[2].textContent.trim(),
       // toArrivalTime: times[3].textContent.trim(),
       price: r.querySelector(".result-widget-price").textContent,
@@ -70,9 +79,10 @@ function computeResults() {
     }
   })
 }
+
 function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num) {
 
-  var searches = rows.map(async (row) => {
+  var searches = rows.map(async(row) => {
     var toMiddle = row.iata;
 
     var page = await browser.newPage();
@@ -81,11 +91,13 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
         waitUntil: 'networkidle',
         timeout: 90000
       })
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
       console.log(`Searching... from: ${from}, to: ${toMiddle}`)
       let pageReady = false
       while (!pageReady) {
         pageReady = await page.evaluate(resultsReady)
+        await wait(1000)
+        await page.evaluate(scrollPage)
         await wait(1000)
         await page.evaluate(scrollPage)
         await wait(1000)
@@ -96,6 +108,7 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
       if (resultsNum) {
         console.log("Getting data...")
         var data = await page.evaluate(computeResults);
+        
         await Flight.insertMany(data, function (error, docs) {
           if (error) {
             console.log('Error inserting:', error)
@@ -112,9 +125,10 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
   return searches;
 
 }
+
 function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_num) {
 
-  var searches = rows.map(async (row) => {
+  var searches = rows.map(async(row) => {
     var fromMiddle = row;
 
     var page = await browser.newPage();
@@ -123,11 +137,13 @@ function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_n
         waitUntil: 'networkidle',
         timeout: 90000
       })
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async(resolve, reject) => {
       console.log(`Searching... from: ${fromMiddle}, to: ${to}`)
       let pageReady = false
       while (!pageReady) {
         pageReady = await page.evaluate(resultsReady)
+        await wait(1000)
+        await page.evaluate(scrollPage)
         await wait(1000)
         await page.evaluate(scrollPage)
         await wait(1000)
@@ -138,6 +154,7 @@ function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_n
       if (resultsNum) {
         console.log("Getting data...")
         var data = await page.evaluate(computeResults);
+        
         await Flight.insertMany(data, function (error, docs) {
           if (error) {
             console.log('Error inserting:', error)
@@ -154,6 +171,84 @@ function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_n
   return searches;
 
 }
+
+async function searchDirectFlightAndSave(from, to, browser, check_out, adult_num, child_num) {
+
+  var page = await browser.newPage();
+  await page.goto(
+    `https://tp24.airtickets.com/results#search/${to}/${from}/obDate/${check_out}/ibDate/${check_out}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
+      waitUntil: 'networkidle',
+      timeout: 90000
+    })
+
+  console.log(`Searching... from: ${to}, to: ${from}`)
+  let pageReady = false
+  while (!pageReady) {
+    pageReady = await page.evaluate(resultsReady)
+    await wait(1000)
+    await page.evaluate(scrollPage)
+    await wait(1000)
+    await page.evaluate(scrollPage)
+    await wait(1000)
+    await page.evaluate(scrollPage)
+  }
+  var resultsNum = await page.evaluate(countResults)
+  console.log(`Finished loading from: ${to}, to: ${from}, found ${resultsNum}`)
+  if (resultsNum) {
+    console.log("Getting data...")
+    var data = await page.evaluate(computeResults);
+    await Flight.insertMany(data, function (error, docs) {
+      if (error) {
+        console.log('Error inserting:', error)
+      } else {
+        console.log("Saving done! from " + to + " to " + from)
+      }
+    });
+  } else {
+    console.log("No flights  from " + to + " to " + from)
+  }
+  console.log("Direct flight from destination to departure searched!")
+  console.log("--------------------------------------------------------------------------------------")
+}
+
+async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, adult_num, child_num) {
+  var page = await browser.newPage();
+  await page.goto(
+    `https://tp24.airtickets.com/results#search/${from}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
+      waitUntil: 'networkidle',
+      timeout: 90000
+    })
+
+  console.log(`Searching... from: ${from}, to: ${to}`)
+  let pageReady = false
+  while (!pageReady) {
+    pageReady = await page.evaluate(resultsReady)
+    await wait(1000)
+    await page.evaluate(scrollPage)
+    await wait(1000)
+    await page.evaluate(scrollPage)
+    await wait(1000)
+  }
+  var resultsNum = await page.evaluate(countResults)
+  console.log(`Finished loading from: ${from}, to: ${to}, found ${resultsNum}`)
+  if (resultsNum) {
+    console.log("Getting data...")
+    var data = await page.evaluate(computeResults);
+    await Flight.insertMany(data, function (error, docs) {
+      if (error) {
+        console.log('Error inserting:', error)
+      } else {
+        console.log("Saving done! from " + from + " to " + to)
+      }
+    });
+  } else {
+    console.log("No flights  from " + from + " to " + to)
+  }
+  console.log("Direct flight from departure to destination searched!")
+  console.log("--------------------------------------------------------------------------------------")
+
+}
+
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /* GET home page. */
@@ -166,7 +261,7 @@ router.get('/load/:_search', function (req, res) {
   var query = {};
   query[name] = {
     $regex: search1
-    
+
   };
   var iata = "iata";
   var query2 = {};
@@ -178,9 +273,17 @@ router.get('/load/:_search', function (req, res) {
   //   then(docs => res.end(JSON.stringify(docs)));
 
   LiveSearch.find({
-    "$or": [
-      { "name": { "$regex": search1 } },
-      { "iata": { "$regex": search1 } }]
+    "$or": [{
+        "name": {
+          "$regex": search1
+        }
+      },
+      {
+        "iata": {
+          "$regex": search1
+        }
+      }
+    ]
   }, function (err, rows, fields) {
     if (err) throw err;
     res.end(JSON.stringify(rows));
@@ -203,7 +306,7 @@ router.post('/allFlightss', function (req, res, next) {
   var toDestSplited = arrayToDest.split(',');
   var toName = toDestSplited[0].trim();
   const to = toDestSplited[1].trim();
-  
+
   const check_in = req.body.check_in;
   const check_out = req.body.check_out;
 
@@ -220,7 +323,33 @@ router.post('/allFlightss', function (req, res, next) {
   const longitudeMiddle = (longitudeFrom + longitudeTo) / 2;
   const latitudeMiddle = (latitudeFrom + latitudeTo) / 2;
 
+  var infos = {
+    fromTown: fromName,
+    toTown: toName,
+    fromIata: from,
+    toIata: to,
+    fromDate: check_in,
+    toDate: check_out,
+    roundTrip: flightType,
+
+  };
+  FlightInfos.deleteMany(function (error) {
+    if (error) {
+      console.log('Error deleting infos')
+    } else {
+      console.log("Deleting infos done!")
+    }
+  });
+
+  FlightInfos.insertMany(infos, function (error) {
+    if (error) {
+      console.log('Error inserting infos:', error)
+    } else {
+      console.log("Saving infos done!")
+    }
+  });
   
+
 
   Flight.deleteMany(function (error) {
     if (error) {
@@ -233,7 +362,7 @@ router.post('/allFlightss', function (req, res, next) {
     location: {
       $geoWithin: {
         $center: [
-          [longitudeMiddle, latitudeMiddle], middleDistance / 100
+          [longitudeMiddle, latitudeMiddle], middleDistance / 100     // 1 degree is 111 km so approximately 100 is good
         ]
       }
     },
@@ -244,95 +373,82 @@ router.post('/allFlightss', function (req, res, next) {
   }, async(err, rows, fields) => {
     if (err) throw err;
     res.end(JSON.stringify(rows));
-    console.log('Found ' + rows.length + ' middle airports');
-    var browser = await puppeteer.launch();
-    //var browser = await puppeteer.launch();
-    var searches = searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num);
-    if (flightType == "roundTrip") {
-      var browser = await puppeteer.launch();
-      //var browser = await puppeteer.launch();
-      var searches2 = searchToMiddleAndSave(rows, to, browser, check_out, adult_num, child_num);
-      Promise.all(searches2).then((responses) => {
-        console.log('Roundtrip: All searches to middle airports finished!')
-        console.log('-------------------------------------------------------------------------------')
+    var middleAirports = rows.length;
+    console.log('Found ' + middleAirports + ' middle airports');
 
-        Flight.distinct('toIata', async (err, rows, fields) => {
+    var browser = await puppeteer.launch({
+      headless: false
+    });
+    if (middleAirports != 0) {
+      var searches = searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num);
+      if (flightType == "roundTrip") {
+
+
+        var browser = await puppeteer.launch({
+          headless: false
+        });
+
+        var searches2 = searchToMiddleAndSave(rows, to, browser, check_out, adult_num, child_num);
+        Promise.all(searches2).then((responses) => {
+          console.log('Roundtrip: All searches to middle airports for check out finished!')
+          console.log('-------------------------------------------------------------------------------')
+
+          Flight.distinct('toIata', async(err, rows, fields) => {
+            res.end(JSON.stringify(rows));
+            console.log('Found ' + rows.length + ' middle airports for check out on database');
+
+            var browser = await puppeteer.launch({
+              headless: false
+            });
+            var searches4 = searchFromMiddleAndSave(rows, from, browser, check_out, adult_num, child_num);
+            Promise.all(searches4).then((responses) => {
+              console.log('Roundtrip: All searches from middle airports to  for check out finished!')
+              console.log('-------------------------------------------------------------------------------')
+
+            })
+          });
+
+        });
+
+        var browser = await puppeteer.launch({
+          headless: false
+        });
+        searchDirectFlightAndSave(from, to, browser, check_out, adult_num, child_num);
+
+      }
+      Promise.all(searches).then((responses) => {
+        console.log('All searches to middle airports for check in finished!')
+        console.log('-------------------------------------------------------------------------------')
+        Flight.distinct('toIata', async(err, rows, fields) => {
           if (err) throw err;
           res.end(JSON.stringify(rows));
-          console.log('Found ' + rows.length + ' middle airports on database');
+          console.log('Found ' + rows.length + ' middle airports for check in on database');
 
-          var browser = await puppeteer.launch();
-          var searches4 = searchFromMiddleAndSave(rows, from, browser, check_out, adult_num, child_num);
-          Promise.all(searches4).then((responses) => {
-            console.log('Roundtrip: All searches from middle airports to destination finished!')
+          var browser = await puppeteer.launch({
+            headless: false
+          });
+          var searches3 = searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_num);
+          Promise.all(searches3).then((responses) => {
+            console.log('All searches from middle airports to destination for check in finished!')
             console.log('-------------------------------------------------------------------------------')
 
           })
         });
 
       });
-
-    }
-    Promise.all(searches).then((responses) => {
-      console.log('All searches to middle airports finished!')
-      console.log('-------------------------------------------------------------------------------')
-
-      Flight.distinct('toIata', async(err, rows, fields) => {
-        if (err) throw err;
-        res.end(JSON.stringify(rows));
-        console.log('Found ' + rows.length + ' middle airports on database');
-
-        var browser = await puppeteer.launch();
-        var searches3 = searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_num);
-        Promise.all(searches3).then((responses) => {
-          console.log('All searches from middle airports to destination finished!')
-          console.log('-------------------------------------------------------------------------------')
-
-        })
-      });
-
-    });
-   
-    var browser = await puppeteer.launch();
-    //searchDirectFlightAndSave(from, to, browser, check_in, adult_num, child_num);
-    var page = await browser.newPage();
-    await page.goto(
-      `https://tp24.airtickets.com/results#search/${from}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
-        waitUntil: 'networkidle',
-        timeout: 90000
-      })
-
-    console.log(`Searching... from: ${from}, to: ${to}`)
-    let pageReady = false
-    while (!pageReady) {
-      pageReady = await page.evaluate(resultsReady)
-      await wait(1000)
-      await page.evaluate(scrollPage)
-      await wait(1000)
-      await page.evaluate(scrollPage)
-    }
-    var resultsNum = await page.evaluate(countResults)
-    console.log(`Finished loading from: ${from}, to: ${to}, found ${resultsNum}`)
-    if (resultsNum) {
-      console.log("Getting data...")
-      var data = await page.evaluate(computeResults);
-      await Flight.insertMany(data, function (error, docs) {
-        if (error) {
-          console.log('Error inserting:', error)
-        } else {
-          console.log("Saving done! from " + from + " to " + to)
-        }
-      });
     } else {
-      console.log("No flights  from " + from + " to " + to)
+      if (flightType == "roundTrip") {
+        var browser = await puppeteer.launch({
+          headless: false
+        });
+        searchDirectFlightAndSave(from, to, browser, check_out, adult_num, child_num);
+      }
     }
-    console.log("Direct flight searched!")
-    console.log("--------------------------------------------------------------------------------------")
 
-    
-
-
-
+    var browser = await puppeteer.launch({
+      headless: false
+    });
+    searchDirectFlightCheckInAndSave(from, to, browser, check_in, adult_num, child_num)
   });
 
   res.redirect("http://localhost:8080/#!/allflights");

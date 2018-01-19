@@ -6344,15 +6344,15 @@
 /*----------  page 404  ----------*/
 
 .page-404 {
-    background-image: url('../images/background/bg-section-404.jpg');
+    background-image: url('../images/bg-section-404.jpg');
 }
 
 .page-404:before {
-    background-image: url('../images/background/bg-section-404-2.png');
+    background-image: url('../images/bg-section-404-2.png');
 }
 
 .page-404:after {
-    background-image: url('../images/background/bg-section-404-1.png');
+    background-image: url('../images/bg-section-404-1.png');
 }
 
 .page-404 {
@@ -6438,7 +6438,7 @@
          -o-animation: cloud_left_to_right 150s linear infinite;
             animation: cloud_left_to_right 150s linear infinite;
 
-    background-image: url('../images/background/bg_404_Cloud-1.png');
+    background-image: url('../images/bg_404_Cloud-1.png');
     background-position: center;
 }
 
@@ -6451,7 +6451,7 @@
          -o-animation: cloud_right_to_left 250s linear infinite;
             animation: cloud_right_to_left 250s linear infinite;
 
-    background-image: url('../images/background/bg_404_Cloud-2.png');
+    background-image: url('../images/bg_404_Cloud-2.png');
     background-position: top;
 }
 
@@ -6464,7 +6464,7 @@
          -o-animation: cloud_left_to_right 300s linear infinite;
             animation: cloud_left_to_right 300s linear infinite;
 
-    background-image: url('../images/background/bg_404_Cloud-3.png');
+    background-image: url('../images/bg_404_Cloud-3.png');
     background-position: center;
 }
 
