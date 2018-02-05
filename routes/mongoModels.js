@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/test5', {
+mongoose.connect('mongodb://localhost/airports', {
   useMongoClient: true,
   promiseLibrary: global.Promise
 });
@@ -13,6 +13,8 @@ var Flight = mongoose.model('Flight', mongoose.Schema({
   toTown: String,
   fromIata: String,
   toIata: String,
+ // duration :String,
+  //station:String,
   // toDepartureTime: String,
   // toArrivalTime: String,
   price: String,
@@ -66,7 +68,7 @@ newSchema.index({
   location: "2dsphere"
 });
 
-var LiveSearch = mongoose.model('AirportsAlls', newSchema);
+var LiveSearch = mongoose.model('AllAirports', newSchema);
 
 
 module.exports = {

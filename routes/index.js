@@ -51,6 +51,34 @@ function resultsReady() {
 
 function computeResults() {
 
+  // var results = Array.from(document.querySelectorAll(".result-container"));
+ 
+  // console.log('----------------------------------------------------------')
+  // console.log(results)
+  
+    // var results2 = Array.from(document.querySelectorAll(".segment-item"));
+    // console.log(results2)
+    // return results2.map((r1) => {
+    // var seg =r1.querySelectorAll('.h4')
+    // console.log(seg)
+    // var times = r.querySelectorAll('.h4')
+    // var town = r.querySelectorAll('.d-none')
+    // var iata = r.querySelectorAll('.d-block')
+    
+    //var station = r.querySelectorAll('.segment-item-duration text-small')
+
+   // var infos = r.querySelectorAll('.connection-info span')
+      
+      
+      
+    
+    // return {
+    //   fromDepartureTime: seg[0].textContent.trim(),
+    //   fromArrivalTime: seg[1].textContent.trim()
+
+    // }
+  //  })
+  
   var results = Array.from(document.querySelectorAll(".result-container"));
   console.log('----------------------------------------------------------')
   console.log(results)
@@ -78,6 +106,8 @@ function computeResults() {
       //toDate: infos[6].textContent.trim(),
     }
   })
+  
+  
 }
 
 function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num) {
