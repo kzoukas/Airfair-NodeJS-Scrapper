@@ -37,8 +37,8 @@ function scrollPage() {
 
 function countResults() {
   /* return document.querySelector(".result-container")?document.querySelector(".result-container").children:0;  */
-  if (document.querySelector(".result-container")) {
-    return document.querySelectorAll(".result-container").length;
+  if (document.querySelector(".segment-item")) {
+    return document.querySelectorAll(".segment-item").length;
   } else {
     return 0;
 
@@ -46,73 +46,56 @@ function countResults() {
 }
 
 function resultsReady() {
-  return !document.querySelector('.loader-line')
+  return !document.querySelector('.loader-line-mask')
 }
 
 function computeResults() {
-
-  // var results = Array.from(document.querySelectorAll(".result-container"));
- 
-  // console.log('----------------------------------------------------------')
-  // console.log(results)
-  
-    // var results2 = Array.from(document.querySelectorAll(".segment-item"));
-    // console.log(results2)
-    // return results2.map((r1) => {
-    // var seg =r1.querySelectorAll('.h4')
-    // console.log(seg)
-    // var times = r.querySelectorAll('.h4')
-    // var town = r.querySelectorAll('.d-none')
-    // var iata = r.querySelectorAll('.d-block')
-    
-    //var station = r.querySelectorAll('.segment-item-duration text-small')
-
-   // var infos = r.querySelectorAll('.connection-info span')
-      
-      
-      
-    
-    // return {
-    //   fromDepartureTime: seg[0].textContent.trim(),
-    //   fromArrivalTime: seg[1].textContent.trim()
-
-    // }
-  //  })
-  
+  let data = [];
   var results = Array.from(document.querySelectorAll(".result-container"));
   console.log('----------------------------------------------------------')
   console.log(results)
-  return results.map((r) => {
-    var times = r.querySelectorAll('.h4')
-    var town = r.querySelectorAll('.d-none')
-    var iata = r.querySelectorAll('.d-block')
+  // return results.map((r) => {
+    for(var result of results){
 
-    var infos = r.querySelectorAll('.connection-info span')
-
-    return {
-      fromDepartureTime: times[0].textContent.trim(),
-      fromArrivalTime: times[1].textContent.trim(),
-      fromTown: town[1].textContent.trim(),
-      fromIata: iata[0].textContent.trim(),
-      toTown: town[3].textContent.trim(),
-      toIata: iata[1].textContent.trim(),
-      // toDepartureTime: times[2].textContent.trim(),
-      // toArrivalTime: times[3].textContent.trim(),
-      price: r.querySelector(".result-widget-price").textContent,
-      fromCompany: infos[1].textContent.trim(),
+      var infos = result.querySelectorAll('.connection-info span');
+      let price= result.querySelector(".result-widget-price").textContent.substr(1);
+      let fromCompany= infos[1].textContent.trim();
       //toCompany: infos[5].textContent.trim(),
-      fromDate: infos[2].textContent.trim(),
-      toDate: infos[2].textContent.trim(),
-      //toDate: infos[6].textContent.trim(),
+      let fromDate= infos[2].textContent.trim();
+      let toDate= infos[2].textContent.trim();
+        //toDate: infos[6].textContent.trim(),
+
+      var segments =Array.from(result.querySelectorAll(".segment-item"));
+      for(var segment of segments){
+
+      var times = segment.querySelectorAll('.h4');
+      var town = segment.querySelectorAll('.d-none');
+      var iata = segment.querySelectorAll('.d-block');
+      
+        let fromDepartureTime= times[0].textContent.trim();
+        let fromArrivalTime = times[1].textContent.trim();
+        let fromTown= town[1].textContent.trim();
+        let fromIata= iata[0].textContent.trim();
+        let toTown= town[3].textContent.trim();
+        let toIata= iata[1].textContent.trim();
+        // toDepartureTime: times[2].textContent.trim(),
+        // toArrivalTime: times[3].textContent.trim(),
+        
+        
+        data.push({fromDepartureTime,fromArrivalTime,fromTown,fromIata,toTown,toIata,price,fromCompany,fromDate,toDate});
+      }
     }
-  })
-  
-  
+    return data;
+    
+  // })
+
+
+
 }
 
 function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num) {
 
-  var searches = rows.map(async(row) => {
+  var searches = rows.map(async (row) => {
     var toMiddle = row.iata;
 
     var page = await browser.newPage();
@@ -121,11 +104,13 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
         waitUntil: 'networkidle',
         timeout: 90000
       })
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${from}, to: ${toMiddle}`)
       let pageReady = false
       while (!pageReady) {
+        await wait(3000)
         pageReady = await page.evaluate(resultsReady)
+        
         await wait(1000)
         await page.evaluate(scrollPage)
         await wait(1000)
@@ -133,21 +118,24 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
         await wait(1000)
         await page.evaluate(scrollPage)
       }
-      var resultsNum = await page.evaluate(countResults)
-      console.log(`Finished loading from: ${from}, to: ${toMiddle}, found ${resultsNum}`)
-      if (resultsNum) {
-        console.log("Getting data...")
-        var data = await page.evaluate(computeResults);
-        
-        await Flight.insertMany(data, function (error, docs) {
-          if (error) {
-            console.log('Error inserting:', error)
-          } else {
-            console.log("Saving done! from " + from + " to " + toMiddle)
-          }
-        });
-      } else {
-        console.log("No flights  from " + from + " to " + toMiddle)
+      console.log(pageReady + from +"to"+ toMiddle)
+      if (pageReady) {
+        var resultsNum = await page.evaluate(countResults)
+        console.log(`Finished loading from: ${from}, to: ${toMiddle}, found ${resultsNum}`)
+        if (resultsNum) {
+          console.log("Getting data...")
+          var data = await page.evaluate(computeResults);
+
+          await Flight.insertMany(data, function (error, docs) {
+            if (error) {
+              console.log('Error inserting:', error)
+            } else {
+              console.log("Saving done! from " + from + " to " + toMiddle)
+            }
+          });
+        } else {
+          console.log("No flights  from " + from + " to " + toMiddle)
+        }
       }
       resolve(true)
     })
@@ -158,7 +146,7 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
 
 function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_num) {
 
-  var searches = rows.map(async(row) => {
+  var searches = rows.map(async (row) => {
     var fromMiddle = row;
 
     var page = await browser.newPage();
@@ -167,7 +155,7 @@ function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_n
         waitUntil: 'networkidle',
         timeout: 90000
       })
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${fromMiddle}, to: ${to}`)
       let pageReady = false
       while (!pageReady) {
@@ -179,21 +167,23 @@ function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_n
         await wait(1000)
         await page.evaluate(scrollPage)
       }
-      var resultsNum = await page.evaluate(countResults)
-      console.log(`Finished loading from: ${fromMiddle}, to: ${to}, found ${resultsNum}`)
-      if (resultsNum) {
-        console.log("Getting data...")
-        var data = await page.evaluate(computeResults);
-        
-        await Flight.insertMany(data, function (error, docs) {
-          if (error) {
-            console.log('Error inserting:', error)
-          } else {
-            console.log("Saving done! from " + fromMiddle + " to " + to)
-          }
-        });
-      } else {
-        console.log("No flights  from " + fromMiddle + " to " + to)
+      if (pageReady) {
+        var resultsNum = await page.evaluate(countResults)
+        console.log(`Finished loading from: ${fromMiddle}, to: ${to}, found ${resultsNum}`)
+        if (resultsNum) {
+          console.log("Getting data...")
+          var data = await page.evaluate(computeResults);
+
+          await Flight.insertMany(data, function (error, docs) {
+            if (error) {
+              console.log('Error inserting:', error)
+            } else {
+              console.log("Saving done! from " + fromMiddle + " to " + to)
+            }
+          });
+        } else {
+          console.log("No flights  from " + fromMiddle + " to " + to)
+        }
       }
       resolve(true)
     })
@@ -304,15 +294,15 @@ router.get('/load/:_search', function (req, res) {
 
   LiveSearch.find({
     "$or": [{
-        "name": {
-          "$regex": search1
-        }
-      },
-      {
-        "iata": {
-          "$regex": search1
-        }
+      "name": {
+        "$regex": search1
       }
+    },
+    {
+      "iata": {
+        "$regex": search1
+      }
+    }
     ]
   }, function (err, rows, fields) {
     if (err) throw err;
@@ -378,7 +368,7 @@ router.post('/allFlightss', function (req, res, next) {
       console.log("Saving infos done!")
     }
   });
-  
+
 
 
   Flight.deleteMany(function (error) {
@@ -400,7 +390,7 @@ router.post('/allFlightss', function (req, res, next) {
     name: {
       $ne: fromName
     }
-  }, async(err, rows, fields) => {
+  }, async (err, rows, fields) => {
     if (err) throw err;
     res.end(JSON.stringify(rows));
     var middleAirports = rows.length;
@@ -423,7 +413,7 @@ router.post('/allFlightss', function (req, res, next) {
           console.log('Roundtrip: All searches to middle airports for check out finished!')
           console.log('-------------------------------------------------------------------------------')
 
-          Flight.distinct('toIata', async(err, rows, fields) => {
+          Flight.distinct('toIata', async (err, rows, fields) => {
             res.end(JSON.stringify(rows));
             console.log('Found ' + rows.length + ' middle airports for check out on database');
 
@@ -449,7 +439,7 @@ router.post('/allFlightss', function (req, res, next) {
       Promise.all(searches).then((responses) => {
         console.log('All searches to middle airports for check in finished!')
         console.log('-------------------------------------------------------------------------------')
-        Flight.distinct('toIata', async(err, rows, fields) => {
+        Flight.distinct('toIata', async (err, rows, fields) => {
           if (err) throw err;
           res.end(JSON.stringify(rows));
           console.log('Found ' + rows.length + ' middle airports for check in on database');
@@ -481,7 +471,7 @@ router.post('/allFlightss', function (req, res, next) {
     searchDirectFlightCheckInAndSave(from, to, browser, check_in, adult_num, child_num)
   });
 
-  res.redirect("http://localhost:8080/#!/allflights");
+  res.redirect("http://localhost:8080/#!/allflights"+"?from="+from+"&to="+to);
 
 });
 module.exports = router;
