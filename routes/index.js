@@ -48,9 +48,12 @@ function countResults() {
 function resultsReady() {
   return !document.querySelector('.loader-line-mask')
 }
+function wrapComputeResults() {
 
-function computeResults() {
+ 
   let data = [];
+  // const ee=from;
+  // const eee=to;
   var results = Array.from(document.querySelectorAll(".result-container"));
   console.log('----------------------------------------------------------')
   console.log(results)
@@ -58,19 +61,23 @@ function computeResults() {
     for(var result of results){
 
       var infos = result.querySelectorAll('.connection-info span');
-      let price= result.querySelector(".result-widget-price").textContent.substr(1);
-      let fromCompany= infos[1].textContent.trim();
+      // let flightSearchFromIata=ee;
+      // let flightSearchToIata=eee;
+      let price= result.querySelector(".result-widget-price").textContent.substr(1).replace(',','');
+      let fromCompany= infos[3].textContent.trim();
       //toCompany: infos[5].textContent.trim(),
-      let fromDate= infos[2].textContent.trim();
-      let toDate= infos[2].textContent.trim();
+      let fromDate= infos[4].textContent.trim();
+      let toDate= infos[4].textContent.trim();
         //toDate: infos[6].textContent.trim(),
 
       var segments =Array.from(result.querySelectorAll(".segment-item"));
-      for(var segment of segments){
+      var segmentsDetails =Array.from(result.querySelectorAll(".segment-details"));
+      for(i=0;i<segments.length;i++){
 
-      var times = segment.querySelectorAll('.h4');
-      var town = segment.querySelectorAll('.d-none');
-      var iata = segment.querySelectorAll('.d-block');
+      var times = segments[i].querySelectorAll('.h4');
+      var town = segments[i].querySelectorAll('.d-none');
+      var iata = segments[i].querySelectorAll('.d-block');
+      
       
         let fromDepartureTime= times[0].textContent.trim();
         let fromArrivalTime = times[1].textContent.trim();
@@ -78,14 +85,39 @@ function computeResults() {
         let fromIata= iata[0].textContent.trim();
         let toTown= town[3].textContent.trim();
         let toIata= iata[1].textContent.trim();
+        let duration = segments[i].querySelector('.duration').textContent.trim(); 
+        let station = segments[i].querySelector('.text-muted').textContent.trim(); 
         // toDepartureTime: times[2].textContent.trim(),
         // toArrivalTime: times[3].textContent.trim(),
         
-        
-        data.push({fromDepartureTime,fromArrivalTime,fromTown,fromIata,toTown,toIata,price,fromCompany,fromDate,toDate});
+        if(station=="Direct"){
+            data.push({fromDepartureTime,fromArrivalTime,duration,station,fromTown,fromIata,toTown,toIata,price,fromCompany,fromDate,toDate});
+        }else if (station=="1 Stop"){
+          
+          var lastTime = segmentsDetails[i].querySelectorAll('.grid-item-1-4 .h4');
+          var stationTimes = segmentsDetails[i].querySelectorAll('.grid-item-1-4 .h5');
+          var stationDates = segmentsDetails[i].querySelectorAll('.grid-item-1-4 .text-small');
+          var stationTownDiv = segmentsDetails[i].querySelectorAll('.result-details-arr p');
+
+          let stationArrivalTime=stationTimes[0].textContent.trim();
+          let stationArrivalDate=stationDates[1].textContent.trim();
+          let waitingTime=segmentsDetails[i].querySelector('.bg-overlay-light strong').textContent.trim();
+          let stationDepTime=stationTimes[1].textContent.trim();
+          let stationDepDate=stationDates[2].textContent.trim();
+          let stationTown = stationTownDiv[0].textContent.trim();
+          let toDate=stationDates[3].textContent.trim();
+          let toTime=lastTime[1].textContent.trim();
+          data.push({fromDepartureTime,fromArrivalTime,duration,station,fromTown,fromIata,stationTown,stationArrivalTime,stationArrivalDate,waitingTime,stationDepTime,stationDepDate,toTown,toIata,price,fromCompany,fromDate,toDate,toTime});
+        }else{
+
+        }
       }
     }
     return data;
+   
+ }
+function computeResults() {
+  
     
   // })
 
@@ -93,14 +125,14 @@ function computeResults() {
 
 }
 
-function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num) {
+function searchToMiddleAndSave(rows, from,to, browser, check_in, adult_num, child_num) {
 
   var searches = rows.map(async (row) => {
     var toMiddle = row.iata;
 
     var page = await browser.newPage();
     await page.goto(
-      `https://tp24.airtickets.com/results#search/${from}/${toMiddle}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
+      `https://tp24.airtickets.com/results#search/${from}/${toMiddle}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/0/extendedDates/0`, {
         waitUntil: 'networkidle',
         timeout: 90000
       })
@@ -124,8 +156,8 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
         console.log(`Finished loading from: ${from}, to: ${toMiddle}, found ${resultsNum}`)
         if (resultsNum) {
           console.log("Getting data...")
-          var data = await page.evaluate(computeResults);
-
+          var data = await page.evaluate(wrapComputeResults);
+          
           await Flight.insertMany(data, function (error, docs) {
             if (error) {
               console.log('Error inserting:', error)
@@ -144,14 +176,14 @@ function searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_n
 
 }
 
-function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_num) {
+function searchFromMiddleAndSave(rows,from, to, browser, check_in, adult_num, child_num) {
 
   var searches = rows.map(async (row) => {
     var fromMiddle = row;
 
     var page = await browser.newPage();
     await page.goto(
-      `https://tp24.airtickets.com/results#search/${fromMiddle}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
+      `https://tp24.airtickets.com/results#search/${fromMiddle}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/0/extendedDates/0`, {
         waitUntil: 'networkidle',
         timeout: 90000
       })
@@ -172,7 +204,8 @@ function searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_n
         console.log(`Finished loading from: ${fromMiddle}, to: ${to}, found ${resultsNum}`)
         if (resultsNum) {
           console.log("Getting data...")
-          var data = await page.evaluate(computeResults);
+
+          var data = await page.evaluate(wrapComputeResults);
 
           await Flight.insertMany(data, function (error, docs) {
             if (error) {
@@ -216,7 +249,7 @@ async function searchDirectFlightAndSave(from, to, browser, check_out, adult_num
   console.log(`Finished loading from: ${to}, to: ${from}, found ${resultsNum}`)
   if (resultsNum) {
     console.log("Getting data...")
-    var data = await page.evaluate(computeResults);
+    var data = await page.evaluate(wrapComputeResults);
     await Flight.insertMany(data, function (error, docs) {
       if (error) {
         console.log('Error inserting:', error)
@@ -253,7 +286,8 @@ async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, adu
   console.log(`Finished loading from: ${from}, to: ${to}, found ${resultsNum}`)
   if (resultsNum) {
     console.log("Getting data...")
-    var data = await page.evaluate(computeResults);
+    // var data = await page.evaluate(wrapComputeResults(from, to));
+    var data = await page.evaluate(wrapComputeResults);
     await Flight.insertMany(data, function (error, docs) {
       if (error) {
         console.log('Error inserting:', error)
@@ -400,7 +434,7 @@ router.post('/allFlightss', function (req, res, next) {
       headless: false
     });
     if (middleAirports != 0) {
-      var searches = searchToMiddleAndSave(rows, from, browser, check_in, adult_num, child_num);
+      var searches = searchToMiddleAndSave(rows, from,to, browser, check_in, adult_num, child_num);
       if (flightType == "roundTrip") {
 
 
@@ -408,7 +442,7 @@ router.post('/allFlightss', function (req, res, next) {
           headless: false
         });
 
-        var searches2 = searchToMiddleAndSave(rows, to, browser, check_out, adult_num, child_num);
+        var searches2 = searchToMiddleAndSave(rows,from, to, browser, check_out, adult_num, child_num);
         Promise.all(searches2).then((responses) => {
           console.log('Roundtrip: All searches to middle airports for check out finished!')
           console.log('-------------------------------------------------------------------------------')
@@ -420,7 +454,7 @@ router.post('/allFlightss', function (req, res, next) {
             var browser = await puppeteer.launch({
               headless: false
             });
-            var searches4 = searchFromMiddleAndSave(rows, from, browser, check_out, adult_num, child_num);
+            var searches4 = searchFromMiddleAndSave(rows, from,to, browser, check_out, adult_num, child_num);
             Promise.all(searches4).then((responses) => {
               console.log('Roundtrip: All searches from middle airports to  for check out finished!')
               console.log('-------------------------------------------------------------------------------')
@@ -447,7 +481,7 @@ router.post('/allFlightss', function (req, res, next) {
           var browser = await puppeteer.launch({
             headless: false
           });
-          var searches3 = searchFromMiddleAndSave(rows, to, browser, check_in, adult_num, child_num);
+          var searches3 = searchFromMiddleAndSave(rows,from, to, browser, check_in, adult_num, child_num);
           Promise.all(searches3).then((responses) => {
             console.log('All searches from middle airports to destination for check in finished!')
             console.log('-------------------------------------------------------------------------------')
