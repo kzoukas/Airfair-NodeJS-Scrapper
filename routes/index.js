@@ -49,8 +49,6 @@ function resultsReady() {
   return !document.querySelector('.loader-line-mask')
 }
 function wrapComputeResults() {
-
- 
   let data = [];
   // const ee=from;
   // const eee=to;
@@ -78,7 +76,7 @@ function wrapComputeResults() {
       var town = segments[i].querySelectorAll('.d-none');
       var iata = segments[i].querySelectorAll('.d-block');
       
-      
+        
         let fromDepartureTime= times[0].textContent.trim();
         let fromArrivalTime = times[1].textContent.trim();
         let fromTown= town[1].textContent.trim();
@@ -87,11 +85,13 @@ function wrapComputeResults() {
         let toIata= iata[1].textContent.trim();
         let duration = segments[i].querySelector('.duration').textContent.trim(); 
         let station = segments[i].querySelector('.text-muted').textContent.trim(); 
+        let airlineImgSrc=segments[i].querySelector('.airline-logo').getAttribute('src');
+      
         // toDepartureTime: times[2].textContent.trim(),
         // toArrivalTime: times[3].textContent.trim(),
         
         if(station=="Direct"){
-            data.push({fromDepartureTime,fromArrivalTime,duration,station,fromTown,fromIata,toTown,toIata,price,fromCompany,fromDate,toDate});
+            data.push({fromDepartureTime,fromArrivalTime,duration,station,fromTown,fromIata,toTown,toIata,price,fromCompany,airlineImgSrc,fromDate,toDate});
         }else if (station=="1 Stop"){
           
           var lastTime = segmentsDetails[i].querySelectorAll('.grid-item-1-4 .h4');
@@ -107,7 +107,7 @@ function wrapComputeResults() {
           let stationTown = stationTownDiv[0].textContent.trim();
           let toDate=stationDates[3].textContent.trim();
           let toTime=lastTime[1].textContent.trim();
-          data.push({fromDepartureTime,fromArrivalTime,duration,station,fromTown,fromIata,stationTown,stationArrivalTime,stationArrivalDate,waitingTime,stationDepTime,stationDepDate,toTown,toIata,price,fromCompany,fromDate,toDate,toTime});
+          data.push({fromDepartureTime,fromArrivalTime,duration,station,fromTown,fromIata,stationTown,stationArrivalTime,stationArrivalDate,waitingTime,stationDepTime,stationDepDate,toTown,toIata,price,fromCompany,airlineImgSrc,fromDate,toDate,toTime});
         }else{
 
         }
@@ -116,16 +116,9 @@ function wrapComputeResults() {
     return data;
    
  }
-function computeResults() {
-  
-    
-  // })
 
 
-
-}
-
-function searchToMiddleAndSave(rows, from,to, browser, check_in, adult_num, child_num) {
+ function searchToMiddleAndSave(rows, from,to, browser, check_in, adult_num, child_num) {
 
   var searches = rows.map(async (row) => {
     var toMiddle = row.iata;
@@ -175,7 +168,6 @@ function searchToMiddleAndSave(rows, from,to, browser, check_in, adult_num, chil
   return searches;
 
 }
-
 function searchFromMiddleAndSave(rows,from, to, browser, check_in, adult_num, child_num) {
 
   var searches = rows.map(async (row) => {
@@ -224,7 +216,6 @@ function searchFromMiddleAndSave(rows,from, to, browser, check_in, adult_num, ch
   return searches;
 
 }
-
 async function searchDirectFlightAndSave(from, to, browser, check_out, adult_num, child_num) {
 
   var page = await browser.newPage();
@@ -263,7 +254,6 @@ async function searchDirectFlightAndSave(from, to, browser, check_out, adult_num
   console.log("Direct flight from destination to departure searched!")
   console.log("--------------------------------------------------------------------------------------")
 }
-
 async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, adult_num, child_num) {
   var page = await browser.newPage();
   await page.goto(
@@ -302,7 +292,6 @@ async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, adu
   console.log("--------------------------------------------------------------------------------------")
 
 }
-
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /* GET home page. */
@@ -349,8 +338,6 @@ router.get('/load/:_search', function (req, res) {
 router.post('/allFlightss', function (req, res, next) {
 
   var flightType = req.body.flightType;
-  console.log(flightType);
-
   var arrayFromDest = req.body.search;
   var fromDestSplited = arrayFromDest.split(',');
   var fromName = fromDestSplited[0].trim();
@@ -363,6 +350,8 @@ router.post('/allFlightss', function (req, res, next) {
 
   const check_in = req.body.check_in;
   const check_out = req.body.check_out;
+  console.log(check_in)
+  console.log(check_out)
 
   var longitudeFrom = parseInt(fromDestSplited[2].trim());
   var latitudeFrom = parseInt(fromDestSplited[3].trim());
@@ -378,13 +367,13 @@ router.post('/allFlightss', function (req, res, next) {
   const latitudeMiddle = (latitudeFrom + latitudeTo) / 2;
 
   var infos = {
-    fromTown: fromName,
-    toTown: toName,
+   
     fromIata: from,
     toIata: to,
     fromDate: check_in,
     toDate: check_out,
-    roundTrip: flightType,
+    typeOfFlight: flightType,
+    flightSearched: "no",
 
   };
   FlightInfos.deleteMany(function (error) {
@@ -442,7 +431,7 @@ router.post('/allFlightss', function (req, res, next) {
           headless: false
         });
 
-        var searches2 = searchToMiddleAndSave(rows,from, to, browser, check_out, adult_num, child_num);
+        var searches2 = searchToMiddleAndSave(rows, to,from, browser, check_out, adult_num, child_num);
         Promise.all(searches2).then((responses) => {
           console.log('Roundtrip: All searches to middle airports for check out finished!')
           console.log('-------------------------------------------------------------------------------')
@@ -454,7 +443,7 @@ router.post('/allFlightss', function (req, res, next) {
             var browser = await puppeteer.launch({
               headless: false
             });
-            var searches4 = searchFromMiddleAndSave(rows, from,to, browser, check_out, adult_num, child_num);
+            var searches4 = searchFromMiddleAndSave(rows, to,from, browser, check_out, adult_num, child_num);
             Promise.all(searches4).then((responses) => {
               console.log('Roundtrip: All searches from middle airports to  for check out finished!')
               console.log('-------------------------------------------------------------------------------')
@@ -467,7 +456,7 @@ router.post('/allFlightss', function (req, res, next) {
         var browser = await puppeteer.launch({
           headless: false
         });
-        searchDirectFlightAndSave(from, to, browser, check_out, adult_num, child_num);
+        searchDirectFlightAndSave( to,from, browser, check_out, adult_num, child_num);
 
       }
       Promise.all(searches).then((responses) => {
@@ -485,6 +474,21 @@ router.post('/allFlightss', function (req, res, next) {
           Promise.all(searches3).then((responses) => {
             console.log('All searches from middle airports to destination for check in finished!')
             console.log('-------------------------------------------------------------------------------')
+            var query = {'fromIata':from,
+            'toIata':to,
+            'fromDate':check_in,
+            'toDate':check_out,
+            'typeOfFlight':flightType,
+          'flightSearched':'no'};
+          
+          FlightInfos.findOneAndUpdate(query, {flightSearched:'yes'}, {upsert:true}, function(error, doc){
+            if (error) {
+              console.log('Error deleting infos')
+            } else {
+              console.log("Deleting infos done!")
+            }
+          });
+
 
           })
         });
@@ -495,7 +499,8 @@ router.post('/allFlightss', function (req, res, next) {
         var browser = await puppeteer.launch({
           headless: false
         });
-        searchDirectFlightAndSave(from, to, browser, check_out, adult_num, child_num);
+        searchDirectFlightAndSave( to,from, browser, check_out, adult_num, child_num);
+        
       }
     }
 
@@ -503,9 +508,11 @@ router.post('/allFlightss', function (req, res, next) {
       headless: false
     });
     searchDirectFlightCheckInAndSave(from, to, browser, check_in, adult_num, child_num)
+    
   });
 
-  res.redirect("http://localhost:8080/#!/allflights"+"?from="+from+"&to="+to);
+  res.redirect(`http://localhost:8080/#!/allflights?from=${from}&to=${to}&checkIn=${check_in}&typeOfFlight=${flightType}&adults=${adult_num}&childs=${child_num}`);
 
+  
 });
 module.exports = router;

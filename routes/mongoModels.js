@@ -28,6 +28,7 @@ var Flight = mongoose.model('Flight', mongoose.Schema({
   station:String,
   price: Number,
   fromCompany: String,
+  airlineImgSrc:String,
   fromDate: String,
   toDate: String,
   toTime:String,
@@ -36,14 +37,12 @@ var Flight = mongoose.model('Flight', mongoose.Schema({
 
 var FlightInfos = mongoose.model('FlightInfos', mongoose.Schema({
   
-
-  fromTown: String,
-  toTown: String,
   fromIata: String,
   toIata: String,
   fromDate: String,
   toDate: String,
-  roundTrip:String,
+  typeOfFlight:String,
+  flightSearched:String,
 
 }));
 
