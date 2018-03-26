@@ -483,9 +483,9 @@ router.post('/allFlightss', function (req, res, next) {
           
           FlightInfos.findOneAndUpdate(query, {flightSearched:'yes'}, {upsert:true}, function(error, doc){
             if (error) {
-              console.log('Error deleting infos')
+              console.log('Error Updating infos')
             } else {
-              console.log("Deleting infos done!")
+              console.log("Updating infos done!")
             }
           });
 
