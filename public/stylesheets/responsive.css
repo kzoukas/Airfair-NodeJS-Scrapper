@@ -216,12 +216,16 @@
         width: -moz-calc((100% - 24px) * 34 / 100);
     }
     .tab-search-long .input-daterange {
-        width:      calc((100% - 24px) * 42 / 100);
-        width: -moz-calc((100% - 24px) * 42 / 100);
+        width:      calc((100% - 24px) * 42 / 61);
+        width: -moz-calc((100% - 24px) * 42 / 61);
     }
     .tab-search-long .count {
         width:      calc((100% - 24px) * 12 / 100);
         width: -moz-calc((100% - 24px) * 12 / 100);
+    }
+    .tab-search-long .count2 {
+        width:      calc((100% - 8px) / 3);
+        width: -moz-calc((100% - 8px) / 3);
     }
     .tab-search-long .find-cruises-widget .count,
     .tab-search-long .find-tours-widget .count,
@@ -1448,6 +1452,10 @@
         width:      calc((100% - 8px) / 2);
         width: -moz-calc((100% - 8px) / 2);
     }
+    .tab-search .count2 {
+        width:      calc((100% - 8px) / 2);
+        width: -moz-calc((100% - 8px) / 2);
+    }
     .tab-search .find-cruises-widget .count,
     .tab-search .find-tours-widget .count,
     .tab-search .find-transfer-widget .count {
@@ -1591,6 +1599,10 @@
         line-height: 1.43rem;
     }
     .tab-search .count {
+        width:      calc((100% - 8px) / 2);
+        width: -moz-calc((100% - 8px) / 2);
+    }
+    .tab-search .count2 {
         width:      calc((100% - 8px) / 2);
         width: -moz-calc((100% - 8px) / 2);
     }
@@ -1932,9 +1944,9 @@
     .tour-result-main .tours-layout .content-wrapper > .content .group-btn-tours {
         padding: 0 5px;
     }
-    ----- blog detail ----- .item-blog-detail .blog-text .leave-comment {
+    /* ----- blog detail ----- .item-blog-detail .blog-text .leave-comment {
         margin-bottom: 20px;
-    }
+    } */
     .single-recent-post-widget .post-info .meta-info,
     .single-recent-post-widget .post-info .single-rp-preview {
         line-height: 18px;

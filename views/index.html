@@ -276,7 +276,9 @@
 
                                                             <div class="stretch">&nbsp;</div>
                                                         </div>
+                                                        
                                                         <div class="text-input small-margin-top">
+                                                            <div class="row">
                                                             <div class="place text-box-wrapper">
                                                                 <label class="tb-label ">From</label>
                                                                 <div class="input-group">
@@ -335,20 +337,52 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="input-daterange">
-                                                                <div class="text-box-wrapper half">
-                                                                    <label class="tb-label">Check in</label>
-                                                                    <div class="input-group">
-                                                                        <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_in" id="check_in">
-                                                                        <i class="tb-icon fa fa-calendar input-group-addon"></i>
+                                                        </div>
+                                                            <div class="row">
+                                                                <div class="input-daterange">
+                                                                    <div class="text-box-wrapper half">
+                                                                        <label class="tb-label">Check in</label>
+                                                                        <div class="input-group">
+                                                                            <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_in" id="check_in">
+                                                                            <i class="tb-icon fa fa-calendar input-group-addon"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="text-box-wrapper half epsilon" id="epsi">
+                                                                        <label class="tb-label">Check out</label>
+                                                                        <div class="input-group">
+                                                                            <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_out" id="check_out">
+                                                                            <i class="tb-icon fa fa-calendar input-group-addon"></i>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="text-box-wrapper half epsilon" id="epsi">
-                                                                    <label class="tb-label">Check out</label>
-                                                                    <div class="input-group">
-                                                                        <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_out" id="check_out">
-                                                                        <i class="tb-icon fa fa-calendar input-group-addon"></i>
-                                                                    </div>
+                                                            </div>
+                                                            
+                                                            <div class="row">
+                                                            <div class="count2 airport-size text-box-wrapper">
+
+                                                                <!-- <i class="fa fa-child" aria-hidden="true"></i> -->
+                                                                <label class="tb-label">Airport size</label>
+                                                                <div class="select-wrapper">
+                                                                    <!--i.fa.fa-chevron-down-->
+                                                                    <select class="form-control custom-select selectbox" name="select_airport_size" id="select_airport_size">
+                                                                        <option selected="selected" value=large>Large</option>
+                                                                        <option value=medium>Medium</option>
+                                                                        <option value=small>Small</option>
+                                                                
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="count2 trip_radius text-box-wrapper">
+
+                                                                <!-- <i class="fa fa-child" aria-hidden="true"></i> -->
+                                                                <label class="tb-label">Trip distance</label>
+                                                                <div class="select-wrapper">
+                                                                    <!--i.fa.fa-chevron-down-->
+                                                                    <select class="form-control custom-select selectbox" name="select_trip_radius" id="select_trip_radius">
+                                                                        <option selected="selected" value=0>Long distance</option>
+                                                                        <option value=1>Small distance</option>
+                                                                        
+                                                                    </select>
                                                                 </div>
                                                             </div>
 
@@ -358,6 +392,7 @@
                                                                 <span class="text">SEARCH NOW</span>
                                                                 <span class="icons fa fa-long-arrow-right"></span>
                                                             </button>
+                                                        </div>
                                                         </div>
                                                     </form>
                                                 </div>

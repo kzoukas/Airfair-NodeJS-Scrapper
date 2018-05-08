@@ -2532,7 +2532,10 @@ a:hover {
     width:      calc((100% - 54px) * 62 / 100);
     width: -moz-calc((100% - 54px) * 62 / 100);
      
-     margin-top: 10px;
+     margin-top: 12px;
+}
+.tab-search-long .count2 {
+     margin-top: 12px;
 }
 
 .tab-search-long .input-daterange .half {
@@ -2550,8 +2553,15 @@ a:hover {
     width:      calc((100% - 54px) * 8 / 100);
     width: -moz-calc((100% - 54px) * 8 / 100);
 }
+.tab-search-long .count2 {
+    width:      calc((100% - 54px) * 8 /26.2);
+    width: -moz-calc((100% - 54px) * 8 /26.2);
+}
 
 .tab-search-long .adult-count {
+    margin-right: 8px;
+}
+.tab-search-long .airport-size {
     margin-right: 8px;
 }
 

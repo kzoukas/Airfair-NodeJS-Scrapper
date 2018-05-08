@@ -1,15 +1,21 @@
+const dotenv = require("dotenv");
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/airports', {
+  useMongoClient: true,
+  promiseLibrary: global.Promise
+});
 var file_importer = require('./test.js')
 const puppeteer = require('puppeteer');
-const Models = require('./mongoModels');
+//const Models = require('./mongoModels');
 
-const Flight = Models.Flight;
-const LiveSearch = Models.LiveSearch;
-const FlightInfos = Models.FlightInfos;
+const Flight = require('../models/flight.js');
+const LiveSearch = require('../models/airport.js');
+const FlightInfos = require('../models/flightInfos.js');
 
-
+dotenv.config();
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
@@ -23,18 +29,15 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var d = R * c; // Distance in km
   return d;
 }
-
 function deg2rad(deg) {
   return deg * (Math.PI / 180)
 }
-
 function scrollPage() {
   window.scrollBy(0, window.innerHeight);
   window.scrollBy(0, window.innerHeight);
   window.scrollBy(0, window.innerHeight);
 
 }
-
 function countResults() {
   /* return document.querySelector(".result-container")?document.querySelector(".result-container").children:0;  */
   if (document.querySelector(".segment-item")) {
@@ -44,7 +47,6 @@ function countResults() {
 
   }
 }
-
 function resultsReady() {
   return !document.querySelector('.loader-line-mask')
 }
@@ -132,6 +134,14 @@ function wrapComputeResults() {
     return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${from}, to: ${toMiddle}`)
       let pageReady = false
+      
+      setTimeout(checkForLoading,50000)
+      function checkForLoading(){
+        if (!pageReady){
+          console.log("Den fortwne h selida apo "+ from +"to"+ toMiddle)
+          resolve(true)
+        }
+      }
       while (!pageReady) {
         await wait(3000)
         pageReady = await page.evaluate(resultsReady)
@@ -143,6 +153,7 @@ function wrapComputeResults() {
         await wait(1000)
         await page.evaluate(scrollPage)
       }
+
       console.log(pageReady + from +"to"+ toMiddle)
       if (pageReady) {
         var resultsNum = await page.evaluate(countResults)
@@ -182,6 +193,14 @@ function searchFromMiddleAndSave(rows,from, to, browser, check_in, adult_num, ch
     return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${fromMiddle}, to: ${to}`)
       let pageReady = false
+      setTimeout(checkForLoading,50000)
+      function checkForLoading(){
+        if (!pageReady){
+          console.log("Den fortwne h selida apo "+ fromMiddle +"to"+ to)
+          pageReady=true;
+        }
+      }
+
       while (!pageReady) {
         pageReady = await page.evaluate(resultsReady)
         await wait(1000)
@@ -334,7 +353,6 @@ router.get('/load/:_search', function (req, res) {
   });
 
 });
-
 router.post('/allFlightss', function (req, res, next) {
 
   var flightType = req.body.flightType;
@@ -360,6 +378,11 @@ router.post('/allFlightss', function (req, res, next) {
 
   const child_num = req.body.select_child_num;
   const adult_num = req.body.select_adult_num;
+
+  const airport_size = req.body.select_airport_size;
+  const trip_radius = req.body.select_trip_radius;
+  console.log(airport_size)
+  console.log(check_out)
 
   var distance = getDistanceFromLatLonInKm(latitudeFrom, longitudeFrom, latitudeTo, longitudeTo);
   var middleDistance = distance / 2;
@@ -499,7 +522,7 @@ router.post('/allFlightss', function (req, res, next) {
         var browser = await puppeteer.launch({
           headless: false
         });
-        searchDirectFlightAndSave( to,from, browser, check_out, adult_num, child_num);
+        searchDirectFlightAndSave(to,from, browser, check_out, adult_num, child_num);
         
       }
     }
@@ -511,6 +534,7 @@ router.post('/allFlightss', function (req, res, next) {
     
   });
 
+  // res.redirect(process.env.REDIRECT_URL+"#!/allflights"+"?from="+from+"&to="+to+"&checkIn="+check_in+"&typeOfFlight="+flightType+"&adults="+adult_num+"&childs="+child_num);
   res.redirect(`http://localhost:8080/#!/allflights?from=${from}&to=${to}&checkIn=${check_in}&typeOfFlight=${flightType}&adults=${adult_num}&childs=${child_num}`);
 
   
