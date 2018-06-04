@@ -231,6 +231,7 @@
 
 .page-banner .container {
     height: 100%;
+    max-width:970px;
 }
 
 .page-banner.homepage-default {
@@ -384,6 +385,14 @@
     top: -30px;
 }
 
+@media (max-width: 769px) {
+    .subTitle{
+        display: none;
+    }
+    .dropdown:hover .dropdown-menu-1 li:hover > .dropdown-menu-2 {
+        display: block;
+    }
+}
 /*----------  1.2. Page Title & Button & ...  ----------*/
 
 .group-title {

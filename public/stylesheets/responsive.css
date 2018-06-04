@@ -197,7 +197,7 @@
 
 /*----------  1.1. Media screen max width 1199px  ----------*/
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 2199px) {
     .tab-search-transparent .find-widget {
         padding: 50px;
     }
@@ -209,7 +209,7 @@
         position: relative;
 
         width: 170px;
-        margin-top: 30px;
+        margin-top: 40px;
     }
     .tab-search-long .place {
         width:      calc((100% - 24px) * 34 / 100);
@@ -1346,7 +1346,7 @@
         margin-left: -50px !important;
     }
     .homepage-banner-warpper {
-        min-height: 667px;
+        min-height: 1027px;
     }
     .homepage-default .group-title {
         margin-bottom: 0;
@@ -2293,9 +2293,9 @@
     .header-main .navbar-header {
         float: right;
     }
-    .header-01 .header-main .navbar-header {
+    /* .header-01 .header-main .navbar-header {
         float: right;
-    }
+    } */
     .header-01 .header-main .logo .header-logo img {
         max-width: 150px;
     }
@@ -2538,7 +2538,7 @@
         margin-left: auto;
     }
     .tab-search-transparent .tab-content {
-        margin-right: 50px;
+        /* margin-right: 50px; */
     }
     .tab-search-transparent .find-widget {
         padding: 40px 30px;
@@ -2676,7 +2676,7 @@
         margin-top: 0;
     }
     .tab-search .nav-tabs {
-        display: block;
+        display: none;
     }
     .tab-search-transparent .tab-btn-wrapper .tab-btn {
         line-height: 50px;
@@ -2700,9 +2700,9 @@
         margin-right: 0;
         margin-left: auto;
     }
-    .tab-search-transparent .tab-content {
+    /* .tab-search-transparent .tab-content {
         margin-right: 50px;
-    }
+    } */
     .tab-search-transparent .find-widget {
         padding: 40px 30px;
     }

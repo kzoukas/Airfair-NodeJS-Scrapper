@@ -6,9 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var file_importer = require('./routes/test.js')
-// const Flight = require('./flight.js');
-// const LiveSearch = require('./models/airport.js');
-// const FlightInfos = require('./models/flightInfos.js');
+
 var app = express();
 
 // view engine setup

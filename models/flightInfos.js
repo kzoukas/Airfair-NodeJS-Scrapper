@@ -7,6 +7,8 @@ var FlightInfos = mongoose.model('FlightInfos', mongoose.Schema({
     fromDate: String,
     toDate: String,
     typeOfFlight:String,
+    airportSize:String,
+    tripDistance:String,
     flightSearched:String,
   
   }));
