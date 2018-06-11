@@ -1,9 +1,10 @@
 const dotenv = require("dotenv");
+dotenv.config();
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/airports', {
+mongoose.connect((process.env.MONGO_URL), {
   useMongoClient: true,
   promiseLibrary: global.Promise
 });
@@ -13,7 +14,7 @@ const Flight = require('../models/flight.js');
 const LiveSearch = require('../models/airport.js');
 const FlightInfos = require('../models/flightInfos.js');
 
-dotenv.config();
+
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
