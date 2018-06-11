@@ -433,9 +433,7 @@ router.post('/allFlightss', function (req, res, next) {
 
   const check_in = req.body.check_in;
   const check_out = req.body.check_out;
-  console.log(check_in)
-  console.log(check_out)
-
+ 
   var longitudeFrom = parseInt(fromDestSplited[2].trim());
   var latitudeFrom = parseInt(fromDestSplited[3].trim());
   var longitudeTo = parseInt(toDestSplited[2].trim());
@@ -498,7 +496,7 @@ router.post('/allFlightss', function (req, res, next) {
         ]
       }
     },
-    size: "large",
+    size: airport_size,
     name: {
       $ne: fromName
     }
