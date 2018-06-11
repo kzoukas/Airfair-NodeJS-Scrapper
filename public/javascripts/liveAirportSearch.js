@@ -9,7 +9,7 @@ $(document).ready(function () {
         if (($('#search').val().length != 0) && ($('#search').val().length > 2)) {
             $.ajax({
                 type: 'GET',
-                url: "http://localhost:3000/load/" + $('#search').val(),
+                url: "/load/" + $('#search').val(),
                 success: function (data) {
                     // var searchField = $('#search').val();
                     // var expression = new RegExp(searchField, "i");
@@ -53,7 +53,7 @@ $(document).ready(function () {
         if (($('#search2').val().length != 0) && ($('#search2').val().length > 2)) {
             $.ajax({
                 type: 'GET',
-                url: "http://localhost:3000/load/" + $('#search2').val(),
+                url: "/load/" + $('#search2').val(),
                 success: function (data2) {
                     // var searchField2 = $('#search2').val();
                     // var expression2 = new RegExp(searchField2, "i");
