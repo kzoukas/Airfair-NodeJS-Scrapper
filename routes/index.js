@@ -509,6 +509,7 @@ router.post('/allFlightss', function (req, res, next) {
 
 
     var browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
       headless: true
     });
     if (middleAirports != 0) {
@@ -518,10 +519,11 @@ router.post('/allFlightss', function (req, res, next) {
        * all found middle airports and save all the pairs that have flights
        */
       var browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: true
       });
       var searchDirectResult = searchDirectFlightCheckInAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
-
+      
       searchDirectResult.then((responses) => {
         console.log('Direct Flight searched!')
         console.log('-------------------------------------------------------------------------------')
@@ -534,6 +536,7 @@ router.post('/allFlightss', function (req, res, next) {
        */
       if (flight_type == "roundTrip") {
         var browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
           headless: true
         });
 
@@ -550,6 +553,7 @@ router.post('/allFlightss', function (req, res, next) {
             console.log('Found ' + rows.length + ' middle airports for check out on database');
 
             var browser = await puppeteer.launch({
+              args: ['--no-sandbox', '--disable-setuid-sandbox'],
               headless: true
             });
             //Search all the flights from the middle airports found to the departure airport and save them
@@ -566,6 +570,7 @@ router.post('/allFlightss', function (req, res, next) {
         * Search all the firect flights from arrival to departure airport and save them
         */
         var browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
           headless: true
         });
 
@@ -589,6 +594,7 @@ router.post('/allFlightss', function (req, res, next) {
           console.log('Found ' + rows.length + ' middle airports for check in on database');
 
           var browser = await puppeteer.launch({
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
             headless: true
           });
           //Search all the flights from the middle airports found to the arrival airport and save them
@@ -635,6 +641,7 @@ router.post('/allFlightss', function (req, res, next) {
          * Search all the firect flights from Departure to arrival airport and save them
          */
         var browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
           headless: true
         });
         var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
@@ -648,6 +655,7 @@ router.post('/allFlightss', function (req, res, next) {
         * If there are no middle airport search all the direct flights from arrival to departure airport and save them 
         */
         var browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
           headless: true
         });
         var searchDirectCheckOutResult = searchDirectFlightAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
@@ -686,6 +694,7 @@ router.post('/allFlightss', function (req, res, next) {
          * Search all the firect flights from Departure to arrival airport and save them
          */
         var browser = await puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
           headless: true
         });
         var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
