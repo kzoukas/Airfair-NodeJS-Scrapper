@@ -1,18 +1,25 @@
 var mongoose = require('mongoose');
 
-var FlightInfos = mongoose.model('FlightInfos', mongoose.Schema({
+var FlightInfosSchema=mongoose.Schema({
   
-    fromIata: String,
-    toIata: String,
-    fromDate: String,
-    toDate: String,
-    typeOfFlight:String,
-    airportSize:String,
-    tripDistance:String,
-    flightSearched:String,
-  
-  }));
+  fromIata: String,
+  toIata: String,
+  checkin: String,
+  checkout: String,
+  typeOfFlight:String,
+  adultNum:String,
+  childNum:String,
+  airportSize:String,
+  tripDistance:String,
+  flightSearched:String,
+// });
+},{timestamps: true});
 
-  module.exports =  FlightInfos;
+ FlightInfosSchema.index({createdAt: 1},{expireAfterSeconds: 600});
+
+
+var FlightInfos = mongoose.model('FlightInfos', FlightInfosSchema);
+
+module.exports =  FlightInfos;
   
   

@@ -1661,7 +1661,10 @@
         margin-top: 60px;
     }
     .tab-search-transparent {
-        margin-bottom: 60px;
+        margin-bottom: 200px;
+    }
+    .subTitles{
+        display: none;
     }
     .menu-mobile .main-menu {
         font-size: 14px;

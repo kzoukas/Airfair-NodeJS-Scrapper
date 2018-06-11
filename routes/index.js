@@ -74,6 +74,7 @@ function wrapComputeResults() {
       var times = segments[i].querySelectorAll('.h4');
       var town = segments[i].querySelectorAll('.d-none');
       var iata = segments[i].querySelectorAll('.d-block');
+      var stationDates = segmentsDetails[i].querySelectorAll('.grid-item-1-4 .text-small');
 
 
       let fromDepartureTime = times[0].textContent.trim();
@@ -82,6 +83,8 @@ function wrapComputeResults() {
       let fromIata = iata[0].textContent.trim();
       let toTown = town[3].textContent.trim();
       let toIata = iata[1].textContent.trim();
+      let fromDate = stationDates[0].textContent.trim();
+      let toDate = stationDates[1].textContent.trim();
       let duration = segments[i].querySelector('.duration').textContent.trim();
       let station = segments[i].querySelector('.text-muted').textContent.trim();
       let airlineImgSrc = segments[i].querySelector('.airline-logo').getAttribute('src');
@@ -126,13 +129,13 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
     await page.goto(
       `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${from}/${toMiddle}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/0/extendedDates/0`, {
         waitUntil: 'networkidle',
-        timeout: 90000
+        timeout: 120000
       })
     return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${from}, to: ${toMiddle}`)
       let pageReady = false
 
-      setTimeout(checkForLoading, 50000)
+      setTimeout(checkForLoading, 80000)
       function checkForLoading() {
         if (!pageReady) {
           console.log("Den fortwne h selida apo " + from + "to" + toMiddle)
@@ -199,12 +202,12 @@ function searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, a
     await page.goto(
       `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${fromMiddle}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/0/extendedDates/0`, {
         waitUntil: 'networkidle',
-        timeout: 90000
+        timeout: 120000
       })
     return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${fromMiddle}, to: ${to}`)
       let pageReady = false
-      setTimeout(checkForLoading, 50000)
+      setTimeout(checkForLoading, 80000)
       function checkForLoading() {
         if (!pageReady) {
           console.log("Den fortwne h selida apo " + fromMiddle + "to" + to)
@@ -266,7 +269,7 @@ async function searchDirectFlightAndSave(from, to, browser, check_in, check_out,
   await page.goto(
     `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${to}/${from}/obDate/${check_out}/ibDate/${check_out}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
       waitUntil: 'networkidle',
-      timeout: 90000
+      timeout: 120000
     })
 
   console.log(`Searching... from: ${to}, to: ${from}`)
@@ -321,7 +324,7 @@ async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, che
   await page.goto(
     `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${from}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
       waitUntil: 'networkidle',
-      timeout: 90000
+      timeout: 120000
     })
 
   console.log(`Searching... from: ${from}, to: ${to}`)
@@ -452,20 +455,22 @@ router.post('/allFlightss', function (req, res, next) {
   var infos = {
     fromIata: from,
     toIata: to,
-    fromDate: check_in,
-    toDate: check_out,
+    checkin: check_in,
+    checkout: check_out,
+    adultNum:adult_num,
+    childNum:child_num,
     typeOfFlight: flight_type,
     airportSize:airport_size,
     tripDistance:trip_distance,
     flightSearched: "no",
   };
-  FlightInfos.deleteMany(function (error) {
-    if (error) {
-      console.log('Error deleting infos')
-    } else {
-      console.log("Deleting infos done!")
-    }
-  });
+  // FlightInfos.deleteMany(function (error) {
+  //   if (error) {
+  //     console.log('Error deleting infos')
+  //   } else {
+  //     console.log("Deleting infos done!")
+  //   }
+  // });
   FlightInfos.insertMany(infos, function (error) {
     if (error) {
       console.log('Error inserting infos:', error)
@@ -473,13 +478,13 @@ router.post('/allFlightss', function (req, res, next) {
       console.log("Saving infos done!")
     }
   });
-  Flight.deleteMany(function (error) {
-    if (error) {
-      console.log('Error deleting:')
-    } else {
-      console.log("Deleting done!")
-    }
-  });
+  // Flight.deleteMany(function (error) {
+  //   if (error) {
+  //     console.log('Error deleting:')
+  //   } else {
+  //     console.log("Deleting done!")
+  //   }
+  // });
 
   /**
    * Find all airports inside the radius that is computed among the departure and arrival airport with the
@@ -598,10 +603,13 @@ router.post('/allFlightss', function (req, res, next) {
             * stop loading icon at the result page and show the final results
             */
             var query = {
+            
               'fromIata': from,
               'toIata': to,
-              'fromDate': check_in,
-              'toDate': check_out,
+              'checkin': check_in,
+              'checkout': check_out,
+              'adultNum':adult_num,
+              'childNum':child_num,
               'typeOfFlight': flight_type,
               'airportSize':airport_size,
               'tripDistance':trip_distance,
@@ -654,8 +662,10 @@ router.post('/allFlightss', function (req, res, next) {
           var query = {
             'fromIata': from,
             'toIata': to,
-            'fromDate': check_in,
-            'toDate': check_out,
+            'checkin': check_in,
+            'checkout': check_out,
+            'adultNum':adult_num,
+            'childNum':child_num,
             'typeOfFlight': flight_type,
             'airportSize':airport_size,
             'tripDistance':trip_distance,
@@ -692,8 +702,10 @@ router.post('/allFlightss', function (req, res, next) {
           var query = {
             'fromIata': from,
             'toIata': to,
-            'fromDate': check_in,
-            'toDate': check_out,
+            'checkin': check_in,
+            'checkout': check_out,
+            'adultNum':adult_num,
+            'childNum':child_num,
             'typeOfFlight': flight_type,
             'airportSize':airport_size,
             'tripDistance':trip_distance,
