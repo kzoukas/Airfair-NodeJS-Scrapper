@@ -1,9 +1,6 @@
 var mongoose = require('mongoose');
 
-
-
 var flightSchema = mongoose.Schema({
-  //name: String,
   flightSearchFromIata:String,
   flightSearchToIata:String,
   checkin:String,
@@ -33,11 +30,9 @@ var flightSchema = mongoose.Schema({
   fromDate: String,
   toDate: String,
   toTime:String,
-  
-// });
 },{timestamps: true});
-flightSchema.index({createdAt: 1},{expireAfterSeconds:300});
 
+flightSchema.index({createdAt: 1},{expireAfterSeconds:600});
 
 var Flight = mongoose.model('Flight', flightSchema);
 

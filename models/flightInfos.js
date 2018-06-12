@@ -12,11 +12,9 @@ var FlightInfosSchema=mongoose.Schema({
   airportSize:String,
   tripDistance:String,
   flightSearched:String,
-// });
 },{timestamps: true});
 
- FlightInfosSchema.index({createdAt: 1},{expireAfterSeconds: 600});
-
+FlightInfosSchema.index({createdAt: 1},{expireAfterSeconds:600});
 
 var FlightInfos = mongoose.model('FlightInfos', FlightInfosSchema);
 
