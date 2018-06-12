@@ -129,7 +129,7 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
     var page = await browser.newPage();
     await page.goto(
       `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${from}/${toMiddle}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/0/extendedDates/0`, {
-        waitUntil: 'networkidle',
+        waitUntil: [ 'load', 'networkidle' ],
         timeout: 120000
       })
     return new Promise(async (resolve, reject) => {
@@ -155,7 +155,7 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
         await page.evaluate(scrollPage)
       }
 
-      console.log(pageReady + from + "to" + toMiddle)
+      // console.log(pageReady + from + "to" + toMiddle)
       if (pageReady) {
         var resultsNum = await page.evaluate(countResults)
         console.log(`Finished loading from: ${from}, to: ${toMiddle}, found ${resultsNum}`)
@@ -178,16 +178,22 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
             }
           }), function (error, docs) {
             if (error) {
+             
               console.log('Error inserting:', error)
+              
             } else {
               console.log("Saving done! from " + from + " to " + toMiddle)
+            
             }
           });
         } else {
           console.log("No flights  from " + from + " to " + toMiddle)
+         
         }
       }
       resolve(true)
+    }).catch(error => {
+      console.error(error) // add catch here
     })
   }
   })
@@ -202,7 +208,7 @@ function searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, a
     var page = await browser.newPage();
     await page.goto(
       `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${fromMiddle}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/0/extendedDates/0`, {
-        waitUntil: 'networkidle',
+        waitUntil: [ 'load', 'networkidle' ],
         timeout: 120000
       })
     return new Promise(async (resolve, reject) => {
@@ -258,6 +264,8 @@ function searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, a
         }
       }
       resolve(true)
+    }).catch(error => {
+      console.error(error) // add catch here
     })
   }
   })
@@ -269,7 +277,7 @@ async function searchDirectFlightAndSave(from, to, browser, check_in, check_out,
   var page = await browser.newPage();
   await page.goto(
     `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${to}/${from}/obDate/${check_out}/ibDate/${check_out}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
-      waitUntil: 'networkidle',
+      waitUntil: [ 'load', 'networkidle' ],
       timeout: 120000
     })
 
@@ -288,6 +296,7 @@ async function searchDirectFlightAndSave(from, to, browser, check_in, check_out,
   console.log(`Finished loading from: ${to}, to: ${from}, found ${resultsNum}`)
   return new Promise(async (resolve, reject) => {
     if (resultsNum) {
+      try{
       console.log("Getting data...")
       // var data = await page.evaluate(wrapComputeResults(from, to));
       var data = await page.evaluate(wrapComputeResults);
@@ -314,9 +323,15 @@ async function searchDirectFlightAndSave(from, to, browser, check_in, check_out,
           //console.log("Saving done! from " + from + " to " + to)
         }
       });
+    }catch(err) {
+      alert(err); // TypeError: failed to fetch
+    }
     } else {
+      resolve();
       console.log("No flights  from " + to + " to " + from)
     }
+  }).catch(error => {
+    console.error(error) // add catch here
   })
 
 }
@@ -324,7 +339,7 @@ async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, che
   var page = await browser.newPage();
   await page.goto(
     `https://travel.airtickets.com/results?_ga=2.118379841.917473712.1526935143-1359867709.1525360843&utm_expid=.zl16DNjGTDeVYCIfOAwvmA.0&utm_referrer=http%3A%2F%2Fwww.airtickets.gr%2F#search/${from}/${to}/obDate/${check_in}/ibDate/${check_in}/isRoundtrip/0/passengersAdult/${adult_num}/passengersChild/${child_num}/passengersInfant/0/directFlightsOnly/1/extendedDates/0`, {
-      waitUntil: 'networkidle',
+      waitUntil: [ 'load', 'networkidle' ],
       timeout: 120000
     })
 
@@ -342,6 +357,7 @@ async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, che
   console.log(`Finished loading from: ${from}, to: ${to}, found ${resultsNum}`)
   return new Promise(async (resolve, reject) => {
     if (resultsNum) {
+      try{
       console.log("Getting data...")
       // var data = await page.evaluate(wrapComputeResults(from, to));
       var data = await page.evaluate(wrapComputeResults);
@@ -361,22 +377,34 @@ async function searchDirectFlightCheckInAndSave(from, to, browser, check_in, che
         }
       }), function (error, docs) {
         if (error) {
+          
           reject("Error inserting", error);
           // console.log('Error inserting:', error)
         } else {
+          
           resolve("Saving done eeeeeeee! from " + from + " to " + to)
           //console.log("Saving done! from " + from + " to " + to)
         }
       });
-    } else {
-      console.log("No flights  from " + from + " to " + to)
+    }catch(err) {
+      alert(err); // TypeError: failed to fetch
     }
+
+    } else {
+      resolve();
+      console.log("No flights  from " + from + " to " + to)
+      
+    }
+  }).catch(error => {
+    console.error(error) // add catch here
   })
 
 
 
 }
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms)).catch(error => {
+  console.error(error) // add catch here
+});
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -507,101 +535,131 @@ router.post('/allFlightss', function (req, res, next) {
     var middleAirports = rows.length;
     console.log('Found ' + middleAirports + ' middle airports');
 
-
-    var browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-      headless: true
-    });
     if (middleAirports != 0) {
 
       /**(OneWay trip)
        * If there are middle airports search all the flights from departure airport to 
        * all found middle airports and save all the pairs that have flights
        */
-      var browser = await puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true
+      var browserOneWayDirectCheckIn1 = await puppeteer.launch({
+        headless: false
       });
-      var searchDirectResult = searchDirectFlightCheckInAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
-      
+      var searchDirectResult = searchDirectFlightCheckInAndSave(from, to, browserOneWayDirectCheckIn1, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+
       searchDirectResult.then((responses) => {
         console.log('Direct Flight searched!')
         console.log('-------------------------------------------------------------------------------')
-      })
-      var searchesFromDepartureToMiddle = searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+        browserOneWayDirectCheckIn1.close();
+      }).catch(function(err) {
+        console.log(err.message); // some coding error in handling happened
+      });
+      var browserOneWayFromDepartureToMiddle = await puppeteer.launch({
+        headless: false
+      });
+      var searchesFromDepartureToMiddle = searchToMiddleAndSave(rows, from, to, browserOneWayFromDepartureToMiddle, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
 
       /**(RoundTrip)
        * If the flight search is roundtrip search again if there are middle airports search all the 
        * flights from arrival airport to all found middle airports and save all the pairs that have flights
        */
       if (flight_type == "roundTrip") {
-        var browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-          headless: true
+        var browserRoundTripFromArrivalToMiddle = await puppeteer.launch({
+          headless: false
         });
 
-        var searchesFromArrivalToMiddle = searchToMiddleAndSave(rows, to, from, browser, check_out, check_in, adult_num, child_num,flight_type,airport_size,trip_distance);
+        var searchesFromArrivalToMiddle = searchToMiddleAndSave(rows, to, from, browserRoundTripFromArrivalToMiddle, check_out, check_in, adult_num, child_num,flight_type,airport_size,trip_distance);
         Promise.all(searchesFromArrivalToMiddle).then((responses) => {
           console.log('Roundtrip: All searches to middle airports for check out finished!')
           console.log('-------------------------------------------------------------------------------')
+          browserRoundTripFromArrivalToMiddle.close();
 
           /**(RoundTrip)
            * Find all middle airports that there are flights from arrival airport
            */
-          Flight.distinct('toIata', async (err, rows, fields) => {
+          var query = {
+            'flightSearchFromIata': to,
+            'flightSearchToIata': from,
+            'checkin': check_out,
+            'checkout': check_in,
+            'adultNum':adult_num,
+            'childNum':child_num,
+            'typeOfFlight': flight_type,
+            'airportSize':airport_size,
+            'tripDistance':trip_distance,
+          };
+          Flight.find(query).distinct('toIata', async (err, rows, fields) => {
+            if (err) throw err;
             res.end(JSON.stringify(rows));
             console.log('Found ' + rows.length + ' middle airports for check out on database');
 
-            var browser = await puppeteer.launch({
-              args: ['--no-sandbox', '--disable-setuid-sandbox'],
-              headless: true
+            var browserRoundTripFromMiddleToDeparture = await puppeteer.launch({
+              headless: false
             });
             //Search all the flights from the middle airports found to the departure airport and save them
-            var searchesFromMiddleToDeparture = searchFromMiddleAndSave(rows, to, from, browser,check_out , check_in, adult_num, child_num,flight_type,airport_size,trip_distance);
+            var searchesFromMiddleToDeparture = searchFromMiddleAndSave(rows, to, from, browserRoundTripFromMiddleToDeparture,check_out , check_in, adult_num, child_num,flight_type,airport_size,trip_distance);
             Promise.all(searchesFromMiddleToDeparture).then((responses) => {
               console.log('Roundtrip: All searches from middle airports to  for check out finished!')
               console.log('-------------------------------------------------------------------------------')
+              browserRoundTripFromMiddleToDeparture.close();
 
-            })
+            }).catch(function(err) {
+              console.log(err.message); // some coding error in handling happened
+            });
           });
 
+        }).catch(function(err) {
+          console.log(err.message); // some coding error in handling happened
         });
         /**(RoundTrip)
         * Search all the firect flights from arrival to departure airport and save them
         */
-        var browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-          headless: true
+        var browserRoundTripDirectCheckOut1 = await puppeteer.launch({
+          headless: false
         });
 
-        var searchDirectResultReturn= searchDirectFlightAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+        var searchDirectResultReturn= searchDirectFlightAndSave(from, to, browserRoundTripDirectCheckOut1, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
         searchDirectResultReturn.then((responses) => {
           console.log('Direct Flight Return searched!')
           console.log('-------------------------------------------------------------------------------')
-        })
+          browserRoundTripDirectCheckOut1.close();
+        }).catch(function(err) {
+          console.log(err.message); // some coding error in handling happened
+        });
       }
 
       Promise.all(searchesFromDepartureToMiddle).then((responses) => {
         console.log('All searches to middle airports for check in finished!')
         console.log('-------------------------------------------------------------------------------')
+        browserOneWayFromDepartureToMiddle.close();
 
         /**(OneWaw trip)
           * Find all middle airports that there are flights from departure airport
           */
-        Flight.distinct('toIata', async (err, rows, fields) => {
+         var query = {
+          'flightSearchFromIata': from,
+          'flightSearchToIata': to,
+          'checkin': check_in,
+          'checkout': check_out,
+          'adultNum':adult_num,
+          'childNum':child_num,
+          'typeOfFlight': flight_type,
+          'airportSize':airport_size,
+          'tripDistance':trip_distance,
+        };
+        Flight.find(query).distinct('toIata', async (err, rows, fields) => {
           if (err) throw err;
           res.end(JSON.stringify(rows));
           console.log('Found ' + rows.length + ' middle airports for check in on database');
 
-          var browser = await puppeteer.launch({
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            headless: true
+          var browserOneWayFromMiddleToArrival = await puppeteer.launch({
+            headless: false
           });
           //Search all the flights from the middle airports found to the arrival airport and save them
-          var searchesFromMiddleToArrival = searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+          var searchesFromMiddleToArrival = searchFromMiddleAndSave(rows, from, to, browserOneWayFromMiddleToArrival, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
           Promise.all(searchesFromMiddleToArrival).then((responses) => {
             console.log('All searches from middle airports to destination for check in finished!')
             console.log('-------------------------------------------------------------------------------')
+            browserOneWayFromMiddleToArrival.close();
 
             /**(OneWaw trip)
             * Once the oneWay trip is searched update the flight with flightSearched:'yes' so
@@ -630,9 +688,13 @@ router.post('/allFlightss', function (req, res, next) {
             });
 
 
-          })
+          }).catch(function(err) {
+            console.log(err.message); // some coding error in handling happened
+          });
         });
 
+      }).catch(function(err) {
+        console.log(err.message); // some coding error in handling happened
       });
     } else {
       if (flight_type == "roundTrip") {
@@ -640,28 +702,30 @@ router.post('/allFlightss', function (req, res, next) {
         /**(OneWay trip)
          * Search all the firect flights from Departure to arrival airport and save them
          */
-        var browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-          headless: true
+        var browserRoundTripDirectCheckInNoMiddle = await puppeteer.launch({
+          headless: false
         });
-        var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+        var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browserRoundTripDirectCheckInNoMiddle, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
 
         searchDirectCheckInResult.then((responses) => {
           console.log('Direct Flight from departure to destination searched!')
           console.log('-------------------------------------------------------------------------------')
+          browserRoundTripDirectCheckInNoMiddle.close();
+        }).catch(function(err) {
+          console.log(err.message); // some coding error in handling happened
         });
 
         /**(RoundTrip)
         * If there are no middle airport search all the direct flights from arrival to departure airport and save them 
         */
-        var browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-          headless: true
+        var browserRoundTripDirectCheckOutNoMiddle = await puppeteer.launch({
+          headless: false
         });
-        var searchDirectCheckOutResult = searchDirectFlightAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+        var searchDirectCheckOutResult = searchDirectFlightAndSave(from, to, browserRoundTripDirectCheckOutNoMiddle, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
         searchDirectCheckOutResult.then((responses) => {
           console.log("Direct flight from destination to departure searched!")
           console.log("--------------------------------------------------------------------------------------")
+          // browserRoundTripDirectCheckOutNoMiddle.close();
           /**(Round trip)
           * Once the round trip direct flights is searched update the flight with flightSearched:'yes' so
           * stop loading icon at the result page and show the final results
@@ -686,6 +750,8 @@ router.post('/allFlightss', function (req, res, next) {
               console.log("Tickets of Direct Flights Searched Successfully!")
             }
           });
+        }).catch(function(err) {
+          console.log(err.message); // some coding error in handling happened
         });
 
 
@@ -693,15 +759,15 @@ router.post('/allFlightss', function (req, res, next) {
         /**(OneWay trip)
          * Search all the firect flights from Departure to arrival airport and save them
          */
-        var browser = await puppeteer.launch({
-          args: ['--no-sandbox', '--disable-setuid-sandbox'],
-          headless: true
+        var browserOneWayDirectCheckInNoMiddle = await puppeteer.launch({
+          headless: false
         });
-        var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
+        var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browserOneWayDirectCheckInNoMiddle, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance);
 
         searchDirectCheckInResult.then((responses) => {
           console.log('Direct Flight searched!')
           console.log('-------------------------------------------------------------------------------')
+          browserOneWayDirectCheckInNoMiddle.close();
 
           /**(OneWaw trip)
           * Once the oneWay trip is searched update the flight with flightSearched:'yes' so
@@ -729,30 +795,17 @@ router.post('/allFlightss', function (req, res, next) {
           });
 
 
+        }).catch(function(err) {
+          console.log(err.message); // some coding error in handling happened
         });
       }
     }
-    // /**(OneWay trip)
-    //  * Search all the firect flights from Departure to arrival airport and save them
-    //  */
-    // var browser = await puppeteer.launch({
-    //   headless: true
-    // });
-    // var searchDirectResult =  searchDirectFlightCheckInAndSave(from, to, browser, check_in,check_out, adult_num, child_num);
-
-    // searchDirectResult.then((responses) => {
-    //   console.log('Direct Flight searched!')
-    //   console.log('-------------------------------------------------------------------------------')
-    // })
-
 
   });
 
   /**(Communication between the 2 servers (nodeJS and Tomcat))
   * Redirect to result page with all the necessary parameters and show the results only among them
   */
-  //  res.redirect(process.env.REDIRECT_URL+"#!/allflights"+"?from="+from+"&to="+to+"&checkIn="+check_in+"&typeOfFlight="+flightType+"&adults="+adult_num+"&childs="+child_num);
-
   res.redirect(`${process.env.REDIRECT_URL}/#!/allflights?from=${from}&to=${to}&checkin=${check_in}&checkout=${check_out}&typeOfFlight=${flight_type}&adultNum=${adult_num}&childNum=${child_num}&airportSize=${airport_size}&tripDistance=${trip_distance}`);
 
 

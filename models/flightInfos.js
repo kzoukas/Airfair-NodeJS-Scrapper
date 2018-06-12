@@ -22,4 +22,3 @@ var FlightInfos = mongoose.model('FlightInfos', FlightInfosSchema);
 
 module.exports =  FlightInfos;
   
-  

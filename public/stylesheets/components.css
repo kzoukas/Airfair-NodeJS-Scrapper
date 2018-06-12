@@ -980,9 +980,15 @@
          -o-transform: translateY(-24px);
             transform: translateY(-24px);
 }
-
-.small-margin-top {
-    margin-top: 30px;
+@media screen and (max-width: 480px) {
+    .small-margin-top {
+        margin-top: 0px;
+    }
+}
+@media screen and (min-width: 480px) {
+    .small-margin-top {
+        margin-top: 40px;
+    }
 }
 
 .medium-margin-top {
@@ -2329,9 +2335,20 @@
 .homepage-banner-warpper .homepage-banner-content {
     display: table-cell;
 
-    vertical-align: middle;
+    /* vertical-align: middle; */
 }
-
+.navbar-logo .logo .header-logo img{
+    width: 210px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+@media screen and (max-width: 480px) {
+    .navbar-logo .logo .header-logo img{
+        width: 180px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+}
 .homepage-default .group-title {
     display: inline-block;
 
