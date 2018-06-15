@@ -199,7 +199,7 @@
 
 @media screen and (max-width: 2199px) {
     .tab-search-transparent .find-widget {
-        padding: 50px;
+        padding: 30px 50px 50px 50px;
     }
     .tab-search-long * button[type='submit'],
     .tab-search-long .find-car-widget button[type='submit'],
@@ -558,7 +558,7 @@
 
 @media screen and (max-width: 991px) {
     .tab-search-transparent .find-widget {
-        padding: 40px;
+        padding: 30px 40px 40px 40px;
     }
     .tab-search-condensed .find-widget {
         padding: 40px 70px;
@@ -3312,7 +3312,7 @@
         line-height: 3.14rem;
     }
     .tab-search-transparent .find-widget {
-        padding: 30px 20px;
+        padding: 20px;
     }
     .tab-search-condensed .find-widget {
         padding: 20px;

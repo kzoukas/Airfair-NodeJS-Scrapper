@@ -111,14 +111,22 @@ jQuery(function($) {
                 // $( '.background' ).parallax( -30, e );
             });
         }
-
+        var nowDate = new Date();
+        var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate(), 0, 0, 0, 0);
         if($(".input-daterange").length) {
             // DATE PICKER
             console.log("reeeee");
             $('.input-daterange').datepicker({
+                startDate: today,
                 format: 'yyyy-mm-dd',
                 maxViewMode: 0,
                 autoclose: true
+                // onSelect: function(selectedDate) {
+                //     var option = this.id == "from" ? "minDate" : "maxDate",
+                //         instance = $(this).data("datepicker"),
+                //         date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+                //     dates.not(this).datepicker("option", option, date);
+                // }
             });
         }
 

@@ -2214,21 +2214,16 @@ a:hover {
 
 .find-widget {
     padding: 40px 30px;
-
     text-align: center;
-
     color: #545454;
 }
 
 .find-widget .title-widgets {
     font-size: 1.43rem;
     font-weight: bold;
-
     margin: 0 0 30px;
-
     text-transform: uppercase;
-
-    color: #3c3c3c;
+    color: #717066;
     border-bottom: none;
     background-color: transparent;
 }
@@ -2240,7 +2235,6 @@ a:hover {
 .find-widget .text-input:after {
     display: table;
     clear: both;
-
     content: '';
 }
 
@@ -3082,11 +3076,11 @@ a:hover {
 }
 
 .tab-search .tab-btn-wrapper.active .tab-btn {
-    color: #555555;
+    color: #565449;
 }
 
 .tab-search .tab-btn-wrapper.active .tab-btn i {
-    color: #3c3c3c;
+    color: #565449;
 }
 
 .tab-search .tab-btn-wrapper:first-child .tab-btn {
