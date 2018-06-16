@@ -8,9 +8,7 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "puppeteer": {
-    "chromium_revision": "515411"
-  },
+  
   "keyword": [
     "airport",
     "heliport",
