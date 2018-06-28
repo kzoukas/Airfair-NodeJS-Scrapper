@@ -32,7 +32,7 @@ var flightSchema = mongoose.Schema({
   toTime:String,
 },{timestamps: true});
 
-flightSchema.index({createdAt: 1},{expireAfterSeconds:600});
+flightSchema.index({createdAt: 1},{expireAfterSeconds:60000});
 
 var Flight = mongoose.model('Flight', flightSchema);
 

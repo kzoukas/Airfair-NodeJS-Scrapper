@@ -3911,3 +3911,38 @@ footer .widget .title-widget {
 .latitude {
     display: none;
 }
+.middleSize, .tripRadius {
+    position: relative;
+    display: inline-block;
+}
+.middleSize .middleSizeTooltip, .tripRadius .tripRadiusTooltip  {
+    visibility: hidden;
+    width: 190px;
+    background-color: #ffdd00;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 7px;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -90px;
+}
+.middleSize .middleSizeTooltip::after, .tripRadius .tripRadiusTooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #ffdd00 transparent transparent transparent;
+}
+
+.middleSize:hover .middleSizeTooltip, .tripRadius:hover .tripRadiusTooltip {
+    visibility: visible;
+    opacity: 1;
+}

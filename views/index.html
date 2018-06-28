@@ -6,7 +6,7 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>AirFair</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../images/logo1.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="../images/logoBrowser.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- FONT CSS-->
     <link type="text/css" rel="stylesheet" href="./fonts/css">
@@ -142,14 +142,14 @@
                                                             <div class="row">
                                                                 <div class="input-daterange">
                                                                     <div class="text-box-wrapper half">
-                                                                        <label class="tb-label">Check in</label>
+                                                                        <label class="tb-label">Departure Date</label>
                                                                         <div class="input-group">
                                                                             <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_in" id="check_in">
                                                                             <i class="tb-icon fa fa-calendar input-group-addon"></i>
                                                                         </div>
                                                                     </div>
                                                                     <div class="text-box-wrapper half epsilon" id="epsi">
-                                                                        <label class="tb-label">Check out</label>
+                                                                        <label class="tb-label">Return Date</label>
                                                                         <div class="input-group">
                                                                             <input type="text" placeholder="MM/DD/YY" class="tb-input" name="check_out" id="check_out">
                                                                             <i class="tb-icon fa fa-calendar input-group-addon"></i>
@@ -160,7 +160,10 @@
                                                             <div class="row">
                                                             <div class="count2 airport-size text-box-wrapper">
                                                                 <!-- <i class="fa fa-child" aria-hidden="true"></i> -->
-                                                                <label class="tb-label">Airport size</label>
+                                                                <label class="middleSize tb-label">Middle airport's size
+                                                                        <span class="middleSizeTooltip">Select the size of middle airports you prefer</span>
+                                                                </label>
+                                                                
                                                                 <div class="select-wrapper">
                                                                     <!--i.fa.fa-chevron-down-->
                                                                     <select class="form-control custom-select selectbox" name="select_airport_size" id="select_airport_size">
@@ -172,12 +175,15 @@
                                                             </div>
                                                             <div class="count2 trip_radius text-box-wrapper">
                                                                 <!-- <i class="fa fa-child" aria-hidden="true"></i> -->
-                                                                <label class="tb-label">Trip distance</label>
+                                                                <label class="tripRadius tb-label">Trip Radius 
+                                                                     <span class="tripRadiusTooltip">Select the radius of your trip's distance</span>
+                                                                </label>
+                                                               
                                                                 <div class="select-wrapper">
                                                                     <!--i.fa.fa-chevron-down-->
                                                                     <select class="form-control custom-select selectbox" name="select_trip_radius" id="select_trip_radius">
-                                                                        <option selected="selected" value=long>Long distance</option>
-                                                                        <option value=small>Small distance</option>
+                                                                        <option selected="selected" value=long>Long radius</option>
+                                                                        <option value=small>Small radius</option>
                                                                     </select>
                                                                 </div>
                                                             </div>

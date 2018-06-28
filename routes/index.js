@@ -14,8 +14,6 @@ const Flight = require('../models/flight.js');
 const LiveSearch = require('../models/airport.js');
 const FlightInfos = require('../models/flightInfos.js');
 
-
-
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1); // deg2rad below
@@ -120,7 +118,6 @@ function wrapComputeResults() {
 
 }
 
-
 function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adult_num, child_num,flight_type,airport_size,trip_distance) {
 
   var searches = rows.map(async (row) => {
@@ -136,7 +133,7 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
       console.log(`Searching... from: ${from}, to: ${toMiddle}`)
       let pageReady = false
 
-      setTimeout(checkForLoading, 80000)
+      setTimeout(checkForLoading, 40000)
       function checkForLoading() {
         if (!pageReady) {
           console.log("Den fortwne h selida apo " + from + "to" + toMiddle)
@@ -214,7 +211,7 @@ function searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, a
     return new Promise(async (resolve, reject) => {
       console.log(`Searching... from: ${fromMiddle}, to: ${to}`)
       let pageReady = false
-      setTimeout(checkForLoading, 80000)
+      setTimeout(checkForLoading, 40000)
       function checkForLoading() {
         if (!pageReady) {
           console.log("Den fortwne h selida apo " + fromMiddle + "to" + to)
@@ -472,6 +469,18 @@ router.post('/allFlightss', function (req, res, next) {
   const adult_num = req.body.select_adult_num;
   
   const airport_size = req.body.select_airport_size;
+  var airport_size2;
+  var airport_size3;
+  if(airport_size=="large"){
+    airport_size2="large";
+    airport_size3="large";
+  }else if(airport_size=="medium"){
+    airport_size2="large";
+    airport_size3="large";
+  }else{
+    airport_size2="large";
+    airport_size3="medium";
+  }
   const trip_distance = req.body.select_trip_radius;
 
   var distance = getDistanceFromLatLonInKm(latitudeFrom, longitudeFrom, latitudeTo, longitudeTo);
@@ -491,13 +500,7 @@ router.post('/allFlightss', function (req, res, next) {
     tripDistance:trip_distance,
     flightSearched: "no",
   };
-  // FlightInfos.deleteMany(function (error) {
-  //   if (error) {
-  //     console.log('Error deleting infos')
-  //   } else {
-  //     console.log("Deleting infos done!")
-  //   }
-  // });
+
   FlightInfos.insertMany(infos, function (error) {
     if (error) {
       console.log('Error inserting infos:', error)
@@ -505,13 +508,6 @@ router.post('/allFlightss', function (req, res, next) {
       console.log("Saving infos done!")
     }
   });
-  // Flight.deleteMany(function (error) {
-  //   if (error) {
-  //     console.log('Error deleting:')
-  //   } else {
-  //     console.log("Deleting done!")
-  //   }
-  // });
 
   /**
    * Find all airports inside the radius that is computed among the departure and arrival airport with the
@@ -525,7 +521,8 @@ router.post('/allFlightss', function (req, res, next) {
         ]
       }
     },
-    size: airport_size,
+    $or:[{size: airport_size},{size:airport_size2},{size:airport_size3}],
+   
     name: {
       $ne: fromName
     }
@@ -605,6 +602,27 @@ router.post('/allFlightss', function (req, res, next) {
               console.log('Roundtrip: All searches from middle airports to  for check out finished!')
               console.log('-------------------------------------------------------------------------------')
               browserRoundTripFromMiddleToDeparture.close();
+              var query = {
+              
+                'fromIata': from,
+                'toIata': to,
+                'checkin': check_in,
+                'checkout': check_out,
+                'adultNum':adult_num,
+                'childNum':child_num,
+                'typeOfFlight': flight_type,
+                'airportSize':airport_size,
+                'tripDistance':trip_distance,
+                'flightSearched': 'no'
+              };
+
+              FlightInfos.findOneAndUpdate(query, { flightSearched: 'yes' }, { upsert: true }, function (error, doc) {
+                if (error) {
+                  console.log('Error Updating infos')
+                } else {
+                  console.log("Tickets Searched Successfully!")
+                }
+              });
 
             }).catch(function(err) {
               console.log(err.message); // some coding error in handling happened
@@ -671,28 +689,29 @@ router.post('/allFlightss', function (req, res, next) {
             * Once the oneWay trip is searched update the flight with flightSearched:'yes' so
             * stop loading icon at the result page and show the final results
             */
-            var query = {
-            
-              'fromIata': from,
-              'toIata': to,
-              'checkin': check_in,
-              'checkout': check_out,
-              'adultNum':adult_num,
-              'childNum':child_num,
-              'typeOfFlight': flight_type,
-              'airportSize':airport_size,
-              'tripDistance':trip_distance,
-              'flightSearched': 'no'
-            };
+            if (flight_type == "oneWay") {
+              var query = {
+              
+                'fromIata': from,
+                'toIata': to,
+                'checkin': check_in,
+                'checkout': check_out,
+                'adultNum':adult_num,
+                'childNum':child_num,
+                'typeOfFlight': flight_type,
+                'airportSize':airport_size,
+                'tripDistance':trip_distance,
+                'flightSearched': 'no'
+              };
 
-            FlightInfos.findOneAndUpdate(query, { flightSearched: 'yes' }, { upsert: true }, function (error, doc) {
-              if (error) {
-                console.log('Error Updating infos')
-              } else {
-                console.log("Tickets Searched Successfully!")
-              }
-            });
-
+              FlightInfos.findOneAndUpdate(query, { flightSearched: 'yes' }, { upsert: true }, function (error, doc) {
+                if (error) {
+                  console.log('Error Updating infos')
+                } else {
+                  console.log("Tickets Searched Successfully!")
+                }
+              });
+           }
 
           }).catch(function(err) {
             console.log(err.message); // some coding error in handling happened
@@ -733,7 +752,7 @@ router.post('/allFlightss', function (req, res, next) {
         searchDirectCheckOutResult.then((responses) => {
           console.log("Direct flight from destination to departure searched!")
           console.log("--------------------------------------------------------------------------------------")
-          // browserRoundTripDirectCheckOutNoMiddle.close();
+          browserRoundTripDirectCheckOutNoMiddle.close();
           /**(Round trip)
           * Once the round trip direct flights is searched update the flight with flightSearched:'yes' so
           * stop loading icon at the result page and show the final results

@@ -35350,5 +35350,46 @@ a.pswp__share--download:hover {
   color: #3e3f40;
 }
 
-/*# sourceMappingURL=style.css.map */
+
+}
+.middleSize .middleSizeTooltip {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.middleSize:hover .middleSizeTooltip {
+    visibility: visible;
+}
+
+.tripRadius .tripRadiusTooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tripRadius:hover .tripRadiusTooltip {
+  visibility: visible;
 }
