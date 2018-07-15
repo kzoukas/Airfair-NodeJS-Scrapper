@@ -264,13 +264,11 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
       return new Promise(async (resolve, reject) => {
         console.log(`Searching... from: ${from}, to: ${toMiddle}`)
         let pageReady = false
-
         setTimeout(checkForLoading, 50000)
-
         function checkForLoading() {
           if (!pageReady) {
             console.log("Den fortwne h selida apo " + from + "to" + toMiddle)
-            resolve(true)
+            pageReady=true;
           }
         }
         while (!pageReady) {
@@ -284,7 +282,6 @@ function searchToMiddleAndSave(rows, from, to, browser, check_in, check_out, adu
           if (resultsNum) {
             console.log("Getting data...")
             var data = await page.evaluate(wrapComputeResults);
-
             await Flight.insertMany(data.map(item => {
               return {
                 flightSearchFromIata: from,
@@ -351,14 +348,12 @@ function searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, a
         console.log(`Searching... from: ${fromMiddle}, to: ${to}`)
         let pageReady = false
         setTimeout(checkForLoading, 50000)
-
         function checkForLoading() {
           if (!pageReady) {
             console.log("Den fortwne h selida apo " + fromMiddle + "to" + to)
             pageReady = true;
           }
         }
-
         while (!pageReady) {
           await wait(3000)
           pageReady = await page.evaluate(resultsReady)
@@ -369,9 +364,7 @@ function searchFromMiddleAndSave(rows, from, to, browser, check_in, check_out, a
           console.log(`Finished loading from: ${fromMiddle}, to: ${to}, found ${resultsNum}`)
           if (resultsNum) {
             console.log("Getting data...")
-
             var data = await page.evaluate(wrapComputeResults);
-
             await Flight.insertMany(data.map(item => {
               return {
                 flightSearchFromIata: from,
@@ -706,7 +699,7 @@ router.post('/allFlightss', function (req, res, next) {
        */
       var browserOneWayDirectCheckIn1 = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-        headless: false
+        headless: true
       });
       var searchDirectResult = searchDirectFlightCheckInAndSave(from, to, browserOneWayDirectCheckIn1, check_in, check_out, adult_num, child_num, flight_type, airport_size, trip_distance);
 
@@ -719,7 +712,7 @@ router.post('/allFlightss', function (req, res, next) {
       });
       var browserOneWayFromDepartureToMiddle = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-        headless: false
+        headless: true
       });
       var searchesFromDepartureToMiddle = searchToMiddleAndSave(rows, from, to, browserOneWayFromDepartureToMiddle, check_in, check_out, adult_num, child_num, flight_type, airport_size, trip_distance,middleAirports);
 
@@ -730,7 +723,7 @@ router.post('/allFlightss', function (req, res, next) {
       if (flight_type == "roundTrip") {
         var browserRoundTripFromArrivalToMiddle = await puppeteer.launch({
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-          headless: false
+          headless: true
         });
 
         var searchesFromArrivalToMiddle = searchToMiddleAndSave(rows, to, from, browserRoundTripFromArrivalToMiddle, check_out, check_in, adult_num, child_num, flight_type, airport_size, trip_distance,middleAirports);
@@ -761,7 +754,7 @@ router.post('/allFlightss', function (req, res, next) {
 
             var browserRoundTripFromMiddleToDeparture = await puppeteer.launch({
               args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-              headless: false
+              headless: true
             });
             //Search all the flights from the middle airports found to the departure airport and save them
             var searchesFromMiddleToDeparture = searchFromMiddleAndSave(rows, to, from, browserRoundTripFromMiddleToDeparture, check_out, check_in, adult_num, child_num, flight_type, airport_size, trip_distance,middleAirports2);
@@ -808,7 +801,7 @@ router.post('/allFlightss', function (req, res, next) {
          */
         var browserRoundTripDirectCheckOut1 = await puppeteer.launch({
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-          headless: false
+          headless: true
         });
 
         var searchDirectResultReturn = searchDirectFlightAndSave(from, to, browserRoundTripDirectCheckOut1, check_in, check_out, adult_num, child_num, flight_type, airport_size, trip_distance);
@@ -847,7 +840,7 @@ router.post('/allFlightss', function (req, res, next) {
 
           var browserOneWayFromMiddleToArrival = await puppeteer.launch({
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-            headless: false
+            headless: true
           });
           //Search all the flights from the middle airports found to the arrival airport and save them
           var searchesFromMiddleToArrival = searchFromMiddleAndSave(rows, from, to, browserOneWayFromMiddleToArrival, check_in, check_out, adult_num, child_num, flight_type, airport_size, trip_distance,middleAirports);
@@ -967,7 +960,7 @@ router.post('/allFlightss', function (req, res, next) {
          */
         var browserOneWayDirectCheckInNoMiddle = await puppeteer.launch({
           args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-          headless: false
+          headless: true
         });
         var searchDirectCheckInResult = searchDirectFlightCheckInAndSave(from, to, browserOneWayDirectCheckInNoMiddle, check_in, check_out, adult_num, child_num, flight_type, airport_size, trip_distance);
 
