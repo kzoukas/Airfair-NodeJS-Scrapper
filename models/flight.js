@@ -26,10 +26,12 @@ var flightSchema = mongoose.Schema({
   station:String,
   price: Number,
   fromCompany: String,
+  fromCompanyAfterStation: String,
   airlineImgSrc:String,
   fromDate: String,
   toDate: String,
   toTime:String,
+  
 },{timestamps: true});
 
 flightSchema.index({createdAt: 1},{expireAfterSeconds:60000});
