@@ -14,11 +14,11 @@ Result page (Roundtrip)
 
 Mobile App
 
-First page
+First page                                                                                                 
 ![search mobile](https://user-images.githubusercontent.com/30151515/45628462-d0782780-ba9c-11e8-8ff7-0795e86ad7a2.png)
 
-Result page (Roundtrip)
+Result page (Roundtrip)                                                                              
 ![results mobile roundtrip](https://user-images.githubusercontent.com/30151515/45628556-ff8e9900-ba9c-11e8-8ebc-56dd6691538b.png)
 
-Result page (Filters)
+Result page (Filters)                                                                   
 ![flters mobile](https://user-images.githubusercontent.com/30151515/45628597-103f0f00-ba9d-11e8-8ded-cb56c66f1094.png)
